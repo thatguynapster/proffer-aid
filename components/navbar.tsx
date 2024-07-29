@@ -38,7 +38,10 @@ const Navbar = () => {
       {/* When the mobile menu is open, add `overflow-hidden` to the `body` element to prevent double scrollbars */}
       <Popover
         as="header"
-        className="bg-white shadow-sm data-[open]:fixed data-[open]:inset-0 data-[open]:z-40 data-[open]:overflow-y-auto lg:static lg:overflow-y-visible data-[open]:lg:static data-[open]:lg:overflow-y-visible"
+        className={classNames(
+          "bg-white shadow-sm lg:overflow-y-visible sticky top-0",
+          "data-[open]:fixed data-[open]:inset-0 z-50 data-[open]:overflow-y-auto data-[open]:lg:overflow-y-visible data-[open]:lg:sticky"
+        )}
       >
         <div className="mx-auto max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
           <div className="relative flex justify-between lg:gap-8">

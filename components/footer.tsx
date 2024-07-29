@@ -10,10 +10,10 @@ const Footer = ({}: Props) => {
   return (
     <div
       className={classNames(
-        "flex flex-col md:flex-row",
+        "flex flex-col md:flex-row gap-8",
         "bg-dark text-gray-50",
         "justify-between",
-        "px-16 py-12"
+        "px-8 lg:px-16 py-6 lg:py-12"
       )}
     >
       <a href={routes.home} className="relative w-[210px] h-[210px]">
@@ -48,8 +48,8 @@ const Footer = ({}: Props) => {
           ))}
         </div>
       </div>
-      <div className="flex flex-col gap-16">
-        <h2 className="text-[40px] font-bold">
+      <div className="flex flex-col gap-8 lg:gap-16">
+        <h2 className="text-2xl lg:text-4xl font-bold">
           Subscribe to get latest updates
         </h2>
         <div className="flex">
