@@ -25,6 +25,7 @@ import { classNames } from "@/lib/helpers";
 import { routes } from "@/routes";
 import Image from "next/image";
 import { pages } from "@/config";
+import Link from "next/link";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -43,29 +44,32 @@ const Navbar = () => {
           "data-[open]:fixed data-[open]:inset-0 z-50 data-[open]:overflow-y-auto data-[open]:lg:overflow-y-visible data-[open]:lg:sticky"
         )}
       >
-        <div className="mx-auto max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
+        <div className="mx-auto px-4 py-2 sm:px-12 lg:px-16">
           <div className="relative flex justify-between lg:gap-8">
             <div className="flex">
               <div className="flex flex-shrink-0 items-center">
-                <a href={routes.home} className="relative w-[195px] h-[51px]">
+                <Link
+                  href={routes.home}
+                  className="relative w-[195px] h-[51px]"
+                >
                   <Image
                     src={"/img/logo-long.png"}
                     alt={"Proffer Aid International Foundation"}
                     fill
                   />
-                </a>
+                </Link>
               </div>
             </div>
 
             <div className="hidden lg:flex items-center gap-10 md:px-8 lg:px-0">
               {pages.map(({ href, text }, i) => (
-                <a
+                <Link
                   key={i}
                   href={href}
                   className={"font-medium text-neutral-700"}
                 >
                   {text}
-                </a>
+                </Link>
               ))}
             </div>
 
@@ -86,12 +90,12 @@ const Navbar = () => {
             </div>
 
             <div className="hidden lg:flex lg:items-center lg:justify-end">
-              <button
-                type="button"
+              <Link
+                href={routes.donation}
                 className="w-full relative inline-flex justify-center items-center gap-x-1.5 rounded-md bg-black px-8 py-3 font-medium text-white"
               >
                 Donate
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -99,7 +103,7 @@ const Navbar = () => {
         <PopoverPanel as="nav" aria-label="Global" className="lg:hidden">
           <div className="mx-auto max-w-3xl space-y-1 px-2 pb-3 pt-2 sm:px-4">
             {pages.map(({ href, text }) => (
-              <a
+              <Link
                 key={text}
                 href={href}
                 aria-current={_handleActive(href) ? "page" : undefined}
@@ -111,17 +115,17 @@ const Navbar = () => {
                 )}
               >
                 {text}
-              </a>
+              </Link>
             ))}
           </div>
 
           <div className="px-2">
-            <button
-              type="button"
+            <Link
+              href={routes.donation}
               className="w-full relative inline-flex justify-center items-center gap-x-1.5 rounded-md bg-black px-8 py-3 font-medium text-white"
             >
               Donate
-            </button>
+            </Link>
           </div>
         </PopoverPanel>
       </Popover>

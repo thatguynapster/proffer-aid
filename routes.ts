@@ -3,7 +3,7 @@ export const routes = {
   about_us: "/about-us",
   what_we_do: "/what-we-do",
   contact: "/contact",
-  donation: "",
+  donation: "/donation",
   project: {
     index: "/projects",
     details: "/projects/:slug",
