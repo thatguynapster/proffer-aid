@@ -22,12 +22,12 @@ export default function AboutUsPage() {
           know about us
         </p>
 
-        <div className="flex gap-8">
+        <div className="flex flex-col lg:flex-row gap-8">
           <h2 className="md:pl-[104px] text-4xl md:text-5xl font-bold">
             We are a non-governmental organization
           </h2>
 
-          <p className="max-w-[465px]">
+          <p className="md:pl-[104px] lg:max-w-[465px]">
             <span className="text-xl font-bold">
               Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet.
               Nunc ut sem vitae risus tristique posuere.
@@ -43,8 +43,8 @@ export default function AboutUsPage() {
       </div>
 
       {/* mission & vision */}
-      <div className="flex flex-col gap-12 lg:gap-24 bg-[#FDF0B9] pb-8 lg:pb-16 px-8 md:px-16 lg:px-28 mt-56">
-        <div className="relative w-full -mt-56">
+      <div className="flex flex-col gap-12 lg:gap-24 bg-[#FDF0B9] py-8 lg:py-16 lg:pt-0 px-8 md:px-16 lg:px-28 lg:mt-56">
+        <div className="relative w-full lg:-mt-56">
           <Image
             alt="Hero Background"
             src={mission_bg}
@@ -58,7 +58,7 @@ export default function AboutUsPage() {
           <div className="absolute left-0 right-0 top-0 bottom-0 bg-dark/20 rounded-3xl"></div>
         </div>
 
-        <div className="flex gap-24 px-24">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 lg:px-24">
           <div className="flex flex-col">
             <h4 className="font-bold uppercase mb-4">our mission</h4>
             <h2 className="text-[1.75rem] font-bold">
