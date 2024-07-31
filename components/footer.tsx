@@ -19,7 +19,7 @@ const Footer = ({}: Props) => {
       <div
         className={classNames(
           "flex flex-col lg:flex-row gap-8",
-          "mx-auto",
+          "w-full",
           "justify-between"
         )}
       >
@@ -34,7 +34,7 @@ const Footer = ({}: Props) => {
         <div className="flex flex-col md:flex-row gap-16">
           <div className="flex flex-col gap-4 w-full">
             {pages.map(({ href, text }, i) => (
-              <Link key={i} href={href}>
+              <Link key={i} href={href} className="whitespace-nowrap">
                 {text}
               </Link>
             ))}
@@ -42,7 +42,7 @@ const Footer = ({}: Props) => {
 
           <div className="flex flex-col gap-4 w-full">
             {morePages.map(({ href, text }, i) => (
-              <Link key={i} href={href}>
+              <Link key={i} href={href} className="whitespace-nowrap">
                 {text}
               </Link>
             ))}
@@ -50,7 +50,7 @@ const Footer = ({}: Props) => {
 
           <div className="flex flex-col gap-4 w-full">
             {socials.map(({ href, text }, i) => (
-              <Link key={i} href={href}>
+              <Link key={i} href={href} className="whitespace-nowrap">
                 {text}
               </Link>
             ))}
