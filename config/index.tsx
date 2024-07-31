@@ -18,7 +18,7 @@ export const pages: PageType[] = [
     href: routes.home,
   },
   {
-    text: "About Us",
+    text: "About Proffer Aid",
     href: routes.about_us,
   },
   {

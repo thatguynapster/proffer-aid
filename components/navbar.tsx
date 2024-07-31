@@ -23,8 +23,8 @@ const Navbar = () => {
       <Popover
         as="header"
         className={classNames(
-          "bg-white shadow-sm lg:overflow-y-visible sticky top-0",
-          "data-[open]:fixed data-[open]:inset-0 z-50 data-[open]:overflow-y-auto data-[open]:lg:overflow-y-visible data-[open]:lg:sticky"
+          "bg-dark/60 shadow-sm lg:overflow-y-visible sticky top-0",
+          "data-[open]:fixed data-[open]:inset-0 z-50 data-[open]:overflow-y-auto data-[open]:lg:overflow-y-visible data-[open]:lg:sticky glass"
         )}
       >
         <div className="mx-auto px-4 py-2 sm:px-12 lg:px-16">
@@ -50,7 +50,7 @@ const Navbar = () => {
                 <Link
                   key={text}
                   href={href}
-                  className={"font-medium text-neutral-700"}
+                  className={"font-medium text-white"}
                 >
                   {text}
                 </Link>

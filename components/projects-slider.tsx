@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Slider from "@/components/slider";
 import { classNames } from "@/lib";
 import { Fragment } from "react";
+import { ChevronRightIcon } from "@heroicons/react/24/outline";
 
 type Props = { projects: any[] };
 
@@ -43,9 +44,9 @@ const ProjectSlider = ({ projects }: Props) => {
             </div>
             <Link
               href={href.replace(":slug", slug)}
-              className="bg-white px-8 py-4 text-dark w-max rounded-md"
+              className="bg-white px-8 py-4 text-dark w-max rounded-md flex items-center gap-2"
             >
-              Learn more
+              Continue reading <ChevronRightIcon className="w-5 h-5" />
             </Link>
           </div>
         </Fragment>

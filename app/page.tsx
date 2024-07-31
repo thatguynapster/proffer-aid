@@ -74,7 +74,7 @@ export default function Home() {
             href={routes.about_us}
             className="w-max bg-secondary text-dark rounded-md px-8 py-4 ml-24"
           >
-            Learn more
+            Find out more here
           </Link>
         </div>
 
