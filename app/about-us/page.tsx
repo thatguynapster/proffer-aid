@@ -60,11 +60,11 @@ export default function AboutUsPage() {
 
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 lg:px-24">
           <div className="flex flex-col">
-            <h4 className="font-bold uppercase mb-4">our mission</h4>
-            <h2 className="text-[1.75rem] font-bold">
+            <h2 className="font-bold uppercase mb-4">our mission</h2>
+            <h3 className="text-[1.75rem] font-bold">
               We make sure to provide inclusive care for children with special
               needs
-            </h2>
+            </h3>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               Suspendisse varius enim in eros elementum tristique. Duis cursus,
@@ -75,10 +75,10 @@ export default function AboutUsPage() {
           </div>
 
           <div className="flex flex-col">
-            <h4 className="font-bold uppercase mb-4">our vision</h4>
-            <h2 className="text-[1.75rem] font-bold">
+            <h2 className="font-bold uppercase mb-4">our vision</h2>
+            <h3 className="text-[1.75rem] font-bold">
               Provide more inclusive care to children around the world
-            </h2>
+            </h3>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               Suspendisse varius enim in eros elementum tristique. Duis cursus,
@@ -120,22 +120,34 @@ export default function AboutUsPage() {
 
               <div className="flex gap-5">
                 {socials.facebook && (
-                  <Link href={socials.facebook}>
+                  <Link
+                    href={socials.facebook}
+                    aria-label={`Connect with ${name} on facebook`}
+                  >
                     <FacebookIcon className="w-5 h-5 text-dark-muted" />
                   </Link>
                 )}
                 {socials.twitter && (
-                  <Link href={socials.twitter}>
+                  <Link
+                    href={socials.twitter}
+                    aria-label={`Connect with ${name} on twitter`}
+                  >
                     <TwitterIcon className="w-5 h-5 text-dark-muted" />
                   </Link>
                 )}
                 {socials.instagram && (
-                  <Link href={socials.instagram}>
+                  <Link
+                    href={socials.instagram}
+                    aria-label={`Connect with ${name} on instagram`}
+                  >
                     <InstagramIcon className="w-5 h-5 text-dark-muted" />
                   </Link>
                 )}
                 {socials.linkedin && (
-                  <Link href={socials.linkedin}>
+                  <Link
+                    href={socials.linkedin}
+                    aria-label={`Connect with ${name} on linkedin`}
+                  >
                     <LinkedInIcon className="w-5 h-5 text-dark-muted" />
                   </Link>
                 )}

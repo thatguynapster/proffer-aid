@@ -23,12 +23,14 @@ const Footer = ({}: Props) => {
           "justify-between"
         )}
       >
-        <Link href={routes.home} className="relative w-[210px] h-[210px]">
+        <Link href={routes.home} aria-label="return to the homepage">
           <Image
             src={"/img/logo-square.png"}
             alt={"Proffer Aid International Foundation"}
-            fill
+            width={210}
+            height={210}
             sizes="(max-width: 1200px) 100vw, (max-width: 768px) 50vw, 33vw"
+            className="aspect-square"
           />
         </Link>
         <div className="flex flex-col md:flex-row gap-16">

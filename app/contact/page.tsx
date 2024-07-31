@@ -70,7 +70,12 @@ export default function Contact() {
                   break;
               }
               return (
-                <Link key={i} href={href} className="whitespace-nowrap">
+                <Link
+                  key={i}
+                  href={href}
+                  aria-label={`follow Proffer Aid on ${text.toLowerCase()}`}
+                  className="whitespace-nowrap"
+                >
                   {icon}
                 </Link>
               );
