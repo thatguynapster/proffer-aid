@@ -22,7 +22,7 @@ export default function AboutUsPage() {
           know about us
         </p>
 
-        <div className="flex">
+        <div className="flex gap-8">
           <h2 className="md:pl-[104px] text-4xl md:text-5xl font-bold">
             We are a non-governmental organization
           </h2>
