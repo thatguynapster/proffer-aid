@@ -21,7 +21,7 @@ const DonationVolunteerCTA = (props: Props) => {
         />
 
         <div className="absolute left-0 right-0 top-0 bottom-0 bg-dark/50 rounded-3xl">
-          <div className="flex flex-col items-center justify-center gap-8 h-full md:px-8">
+          <div className="flex flex-col items-center justify-center gap-8 h-full p-4 md:px-8">
             <h3 className="text-3xl md:text-5xl font-bold text-center leading-tight text-white lg:max-w-[62.89%]">
               You can contribute to provide a place for children with special
               needs!

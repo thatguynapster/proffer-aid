@@ -18,16 +18,16 @@ export default function AboutUsPage() {
       {/* know about us */}
       <div className="flex flex-col gap-8 bg-white p-8 md:px-16 lg:p-16 lg:px-28">
         <p className="uppercase font-bold flex items-center gap-6">
-          <span className="hidden md:flex h-0.5 w-20 bg-dark" />
+          <span className="hidden lg:flex h-0.5 w-20 bg-dark" />
           know about us
         </p>
 
-        <div className="flex flex-col lg:flex-row gap-8">
-          <h2 className="md:pl-[104px] text-4xl md:text-5xl font-bold">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-0">
+          <h2 className="lg:pl-[104px] text-4xl md:text-5xl font-bold">
             We are a non-governmental organization
           </h2>
 
-          <p className="md:pl-[104px] lg:max-w-[465px]">
+          <p className="lg:max-w-[465px]">
             <span className="text-xl font-bold">
               Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet.
               Nunc ut sem vitae risus tristique posuere.
@@ -149,11 +149,11 @@ export default function AboutUsPage() {
       <DonationVolunteerCTA />
 
       {/* events */}
-      <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 bg-white py-8 lg:py-16 px-8 md:px-16 lg:px-28 items-center">
+      <div className="bg-white py-8 lg:py-24 px-8 lg:px-28">
         <div className="flex flex-1 flex-col gap-4 md:gap-12 w-full">
-          <div className="flex flex-col gap-8 md:pl-24 max-w-2xl">
+          <div className="flex flex-col gap-8 lg:pl-24 max-w-2xl">
             <p className="uppercase font-bold flex items-center gap-6">
-              <span className="hidden md:flex h-0.5 -ml-24 w-20 bg-dark" />
+              <span className="hidden lg:flex h-0.5 -ml-24 w-20 bg-dark" />
               our events
             </p>
           </div>

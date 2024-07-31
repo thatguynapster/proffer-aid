@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import DonationVolunteerCTA from "@/components/donation-cta";
 import ProjectSlider from "@/components/projects-slider";
-import { events, projects, WhatWeDo } from "@/config";
+import { events, projects, what_we_do } from "@/config";
 import EventSlider from "@/components/events-slider";
 import hero_bg from "../public/img/hero-bg.jpg";
 import { routes } from "@/routes";
@@ -50,9 +50,9 @@ export default function Home() {
       {/* know about us */}
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 bg-white py-8 lg:py-16 px-8 md:px-16 lg:px-28 items-center">
         <div className="flex flex-1 flex-col gap-4 md:gap-8 w-full">
-          <div className="flex flex-col gap-8 md:pl-24">
+          <div className="flex flex-col gap-8 lg:pl-24">
             <p className="uppercase font-bold flex items-center gap-6">
-              <span className="hidden md:flex h-0.5 -ml-24 w-20 bg-dark" />
+              <span className="hidden lg:flex h-0.5 -ml-24 w-20 bg-dark" />
               know about us
             </p>
             <h2 className="text-4xl md:text-5xl font-bold">
@@ -91,9 +91,9 @@ export default function Home() {
       {/* what we do */}
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 bg-[#FDF0B9] py-8 lg:py-16 px-8 md:px-16 lg:px-28 items-center">
         <div className="flex flex-1 flex-col gap-4 md:gap-12 w-full">
-          <div className="flex flex-col gap-8 md:pl-24">
+          <div className="flex flex-col gap-8 lg:pl-24">
             <p className="uppercase font-bold flex items-center gap-6">
-              <span className="hidden md:flex h-0.5 -ml-24 w-20 bg-dark" />
+              <span className="hidden lg:flex h-0.5 -ml-24 w-20 bg-dark" />
               what we do
             </p>
             <h2 className="text-4xl md:text-5xl font-bold">
@@ -105,7 +105,7 @@ export default function Home() {
             </p>
           </div>
           <div className="border-l border-neutral-300 pl-6 flex flex-col gap-6">
-            {WhatWeDo.map(({ description, icon, title }, i) => (
+            {what_we_do.map(({ description, icon, title }, i) => (
               <div key={i} className="flex items-start gap-6">
                 <div className="p-1.5 bg-dark rounded-md flex items-center justify-center">
                   {icon}
@@ -132,9 +132,9 @@ export default function Home() {
       {/* projects */}
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 bg-white py-8 lg:py-16 px-8 md:px-16 lg:px-28 items-center">
         <div className="flex flex-1 flex-col gap-4 md:gap-12 w-full">
-          <div className="flex flex-col gap-8 md:pl-24 max-w-2xl">
+          <div className="flex flex-col gap-8 lg:pl-24 max-w-[46rem]">
             <p className="uppercase font-bold flex items-center gap-6">
-              <span className="hidden md:flex h-0.5 -ml-24 w-20 bg-dark" />
+              <span className="hidden lg:flex h-0.5 -ml-24 w-20 bg-dark" />
               projects we have done
             </p>
             <h2 className="text-4xl md:text-5xl font-bold">
@@ -151,11 +151,11 @@ export default function Home() {
       <DonationVolunteerCTA />
 
       {/* events */}
-      <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 bg-white py-8 lg:py-16 px-8 md:px-16 lg:px-28 items-center">
+      <div className="bg-white py-8 lg:py-24 px-8 lg:px-28">
         <div className="flex flex-1 flex-col gap-4 md:gap-12 w-full">
-          <div className="flex flex-col gap-8 md:pl-24 max-w-2xl">
+          <div className="flex flex-col gap-8 lg:pl-24 max-w-2xl">
             <p className="uppercase font-bold flex items-center gap-6">
-              <span className="hidden md:flex h-0.5 -ml-24 w-20 bg-dark" />
+              <span className="hidden lg:flex h-0.5 -ml-24 w-20 bg-dark" />
               our events
             </p>
           </div>

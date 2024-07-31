@@ -3,6 +3,9 @@ import { HealthIcon, WavesIcon, PetIcon } from "@/components/icons";
 import { BuildingOffice2Icon } from "@heroicons/react/24/outline";
 import hero_bg from "../public/img/hero-bg.jpg";
 import { IEvent, IProject } from "@/types";
+import { AmenitiesIcon } from "@/components/icons/amenities";
+import { OutreachIcon } from "@/components/icons/outreach";
+import { FamilyIcon } from "@/components/icons/family";
 
 interface PageType {
   text: string;
@@ -58,30 +61,42 @@ export const socials: PageType[] = [
   },
 ];
 
-export const WhatWeDo = [
+export const what_we_do = [
   {
-    icon: <BuildingOffice2Icon className="w-7 h-7 text-white" />,
+    icon: <FamilyIcon className="text-white" />,
     title: "Family support",
     description:
-      " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
   },
   {
-    icon: <HealthIcon className="fill-white text-white" />,
+    icon: <HealthIcon className="text-white" />,
     title: "Health benefits",
     description:
-      " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
   },
   {
     icon: <WavesIcon className="text-white" />,
-    title: "Scholarships",
+    title: "Education",
     description:
-      " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
   },
   {
     icon: <PetIcon className="text-white" />,
     title: "Therapy",
     description:
-      " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+  },
+  {
+    icon: <AmenitiesIcon className="text-white" />,
+    title: "Basic amenities",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+  },
+  {
+    icon: <OutreachIcon className="text-white" />,
+    title: "Public outreach",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
   },
 ];
 
@@ -121,7 +136,7 @@ export const projects: IProject[] = [
   {
     name: "Our goal is to provide inclusive care",
     excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrumLorem imperdiet. Nunc ut sem vitae risus tristique posuere.",
     image: hero_bg,
     href: routes.project.details,
     slug: "our-goal-is-to-provide-inclusive-care",
