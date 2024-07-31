@@ -44,7 +44,7 @@ export default function AboutUsPage() {
 
       {/* mission & vision */}
       <div className="flex flex-col gap-12 lg:gap-24 bg-[#FDF0B9] pb-8 lg:pb-16 px-8 md:px-16 lg:px-28 mt-56">
-        <div className="relative w-full">
+        <div className="relative w-full -mt-56">
           <Image
             alt="Hero Background"
             src={mission_bg}
