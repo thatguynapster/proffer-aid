@@ -28,6 +28,7 @@ const Footer = ({}: Props) => {
             src={"/img/logo-square.png"}
             alt={"Proffer Aid International Foundation"}
             fill
+            sizes="(max-width: 1200px) 100vw, (max-width: 768px) 50vw, 33vw"
           />
         </Link>
         <div className="flex flex-col md:flex-row gap-16">

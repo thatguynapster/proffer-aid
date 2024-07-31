@@ -56,15 +56,16 @@ const Navbar = () => {
                     src={"/img/logo-long.png"}
                     alt={"Proffer Aid International Foundation"}
                     fill
+                    sizes="(max-width: 1200px) 100vw, (max-width: 768px) 50vw, 33vw"
                   />
                 </Link>
               </div>
             </div>
 
             <div className="hidden lg:flex items-center gap-10 md:px-8 lg:px-0">
-              {pages.map(({ href, text }, i) => (
+              {pages.map(({ href, text }) => (
                 <Link
-                  key={i}
+                  key={text}
                   href={href}
                   className={"font-medium text-neutral-700"}
                 >
@@ -92,7 +93,7 @@ const Navbar = () => {
             <div className="hidden lg:flex lg:items-center lg:justify-end">
               <Link
                 href={routes.donation}
-                className="w-full relative inline-flex justify-center items-center gap-x-1.5 rounded-md bg-black px-8 py-3 font-medium text-white"
+                className="w-full relative inline-flex justify-center items-center gap-x-1.5 rounded-md bg-dark px-8 py-3 font-medium text-white"
               >
                 Donate
               </Link>
@@ -122,7 +123,7 @@ const Navbar = () => {
           <div className="px-2">
             <Link
               href={routes.donation}
-              className="w-full relative inline-flex justify-center items-center gap-x-1.5 rounded-md bg-black px-8 py-3 font-medium text-white"
+              className="w-full relative inline-flex justify-center items-center gap-x-1.5 rounded-md bg-dark px-8 py-3 font-medium text-white"
             >
               Donate
             </Link>
