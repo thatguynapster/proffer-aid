@@ -1,11 +1,7 @@
-import React, { SVGProps } from "react";
-import { Template } from "./template";
+import React from "react";
+import { IconProps, Template } from "./template";
 
-interface Props extends SVGProps<SVGSVGElement> {
-  size?: number;
-}
-
-export const PetIcon = ({ size, className, ...props }: Props) => {
+export const PetIcon = ({ size, className, ...props }: IconProps) => {
   return (
     <Template {...{ size, className, props }}>
       <path

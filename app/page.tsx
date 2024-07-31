@@ -1,14 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { HealthIcon, WavesIcon, PetIcon } from "@/components/icons";
-import { BuildingOffice2Icon } from "@heroicons/react/24/outline";
+import DonationVolunteerCTA from "@/components/donation-cta";
 import ProjectSlider from "@/components/projects-slider";
+import { events, projects, WhatWeDo } from "@/config";
+import EventSlider from "@/components/events-slider";
 import hero_bg from "../public/img/hero-bg.jpg";
 import { routes } from "@/routes";
-import EventSlider from "@/components/events-slider";
-import DonationVolunteerCTA from "@/components/donation-cta";
-import { IEvent, IProject } from "@/types";
 
 export default function Home() {
   return (
@@ -127,6 +125,7 @@ export default function Home() {
           width={480}
           height={658}
           className="object-cover rounded-3xl aspect-square lg:aspect-auto"
+          sizes="(max-width: 1200px) 100vw, (max-width: 768px) 50vw, 33vw"
         />
       </div>
 
@@ -148,7 +147,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* cta */}
+      {/* donation & volunteer cta */}
       <DonationVolunteerCTA />
 
       {/* events */}
@@ -167,97 +166,3 @@ export default function Home() {
     </>
   );
 }
-
-const WhatWeDo = [
-  {
-    icon: <BuildingOffice2Icon className="w-7 h-7 text-white" />,
-    title: "Family support",
-    description:
-      " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
-  },
-  {
-    icon: <HealthIcon className="fill-white text-white" />,
-    title: "Health benefits",
-    description:
-      " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
-  },
-  {
-    icon: <WavesIcon className="text-white" />,
-    title: "Scholarships",
-    description:
-      " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
-  },
-  {
-    icon: <PetIcon className="text-white" />,
-    title: "Therapy",
-    description:
-      " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
-  },
-];
-
-const projects: IProject[] = [
-  {
-    name: "Mission smile 1k: Outdoor charity",
-    excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.",
-    image: hero_bg,
-    href: routes.project.details,
-    slug: "mission-smile-1k-outdoor-charity",
-  },
-  {
-    name: "Weekly excursions",
-    excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.",
-    image: hero_bg,
-    href: routes.project.details,
-    slug: "weekly-excursions",
-  },
-  {
-    name: "Monthly public awareness",
-    excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.",
-    image: hero_bg,
-    href: routes.project.details,
-    slug: "monthly-public-awareness",
-  },
-  {
-    name: "We are working cross country",
-    excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.",
-    image: hero_bg,
-    href: routes.project.details,
-    slug: "we-are-working-cross-country",
-  },
-  {
-    name: "Our goal is to provide inclusive care",
-    excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.",
-    image: hero_bg,
-    href: routes.project.details,
-    slug: "our-goal-is-to-provide-inclusive-care",
-  },
-];
-
-const events: IEvent[] = [
-  {
-    start_date: 1718441100000,
-    end_date: 1718478000000,
-    href: routes.event.details,
-    title: "Mission smile 1k: Outdoor charity",
-    slug: "mission-smile-1k-outdoor-charity",
-  },
-  {
-    start_date: 1722329100000,
-    end_date: 1722452400000,
-    href: routes.event.details,
-    title: "A day with our wonderful children",
-    slug: "a-day-with-our-wonderful-children",
-  },
-  {
-    start_date: 1726358400000,
-    end_date: 1727740800000,
-    href: routes.event.details,
-    title: "Seminar: Caring for children with autism",
-    slug: "seminar-caring-for-children-with-autism",
-  },
-];

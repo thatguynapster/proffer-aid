@@ -3,16 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { classNames } from "@/lib";
-import Slider from "@/components/slider";
 import { useRouter } from "next/navigation";
+import Slider from "@/components/slider";
+import { classNames } from "@/lib";
 import { Fragment } from "react";
 
 type Props = { projects: any[] };
 
 const ProjectSlider = ({ projects }: Props) => {
-  const router = useRouter();
-
   return (
     <Slider options={{ showButtons: false, offset: 0.1, spaceBetween: 24 }}>
       {projects.map(({ excerpt, href, image, name, slug }) => (

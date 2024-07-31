@@ -1,30 +1,13 @@
 "use client";
 
 import React from "react";
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  Popover,
-  PopoverButton,
-  PopoverPanel,
-} from "@headlessui/react";
-import {
-  Bars3Icon,
-  BellIcon,
-  MagnifyingGlassIcon,
-  PlusIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import { classNames } from "@/lib/helpers";
 import { routes } from "@/routes";
-import Image from "next/image";
 import { pages } from "@/config";
+import Image from "next/image";
 import Link from "next/link";
 
 const Navbar = () => {

@@ -12,6 +12,8 @@ const config: Config = {
         primary: "#0E1766",
         secondary: "#FCD01C",
         dark: "#0B0706",
+        muted: "#525560",
+        "dark-muted": "#1D2130",
       },
     },
   },
