@@ -14,13 +14,18 @@ import useWidth from "@/hooks/useWidth";
 
 const Slider = ({
   children,
-  options = { showButtons: true, offset: 0, spaceBetween: 16 },
+  options = {
+    showButtons: true,
+    offset: 0,
+    spaceBetween: 16,
+  },
 }: {
   children: ReactNode[];
   options?: Partial<{
     showButtons: boolean;
     offset: number;
     spaceBetween?: number;
+    slidesPerView?: number;
   }>;
 }) => {
   const width = useWidth();
@@ -31,13 +36,14 @@ const Slider = ({
   const lg = (width as number) < 1280;
   const xl = (width as number) < 1536;
 
-  const svp = base ? 1 : sm ? 2 : md ? 2 : xl ? 3 : 4;
+  const svp = base ? 1 : sm ? 2 : lg ? 2 : xl ? 3 : 4;
 
   const [swiper, setSwiper] = useState<null | SwiperType>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [slideConfig, setSlideConfig] = useState({
     isBeginning: true,
-    isEnd: activeIndex === (children?.length ?? 0) - svp,
+    isEnd:
+      activeIndex === (children?.length ?? 0) - (options.slidesPerView ?? svp),
   });
 
   useEffect(() => {
@@ -45,7 +51,9 @@ const Slider = ({
       setActiveIndex(activeIndex);
       setSlideConfig({
         isBeginning: activeIndex === 0,
-        isEnd: activeIndex === (children?.length ?? 0) - svp,
+        isEnd:
+          activeIndex ===
+          (children?.length ?? 0) - (options.slidesPerView ?? svp),
       });
     });
   }, [swiper, children]);
@@ -64,7 +72,9 @@ const Slider = ({
               activeStyles,
               "-right-4 transition",
               {
-                [inactiveStyles]: slideConfig.isEnd || children?.length <= svp,
+                [inactiveStyles]:
+                  slideConfig.isEnd ||
+                  children?.length <= (options.slidesPerView ?? svp),
                 "hover:bg-primary hover:text-neutral-10 text-neutral-50 opacity-100":
                   !slideConfig.isEnd,
               },
@@ -104,7 +114,7 @@ const Slider = ({
       <Swiper
         className="w-full h-full"
         spaceBetween={options.spaceBetween}
-        slidesPerView={svp + (options.offset ?? 0)}
+        slidesPerView={(options.slidesPerView ?? svp) + (options.offset ?? 0)}
         onSwiper={(swiper) => setSwiper(swiper)}
         modules={[Pagination]}
       >

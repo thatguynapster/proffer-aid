@@ -165,6 +165,20 @@ export const events: IEvent[] = [
     title: "Seminar: Caring for children with autism",
     slug: "seminar-caring-for-children-with-autism",
   },
+  {
+    start_date: 1726358400000,
+    end_date: 1727740800000,
+    href: routes.event.details,
+    title: "Seminar: Caring for children with autism",
+    slug: "seminar-caring-for-children-with-autism-2",
+  },
+  {
+    start_date: 1726358400000,
+    end_date: 1727740800000,
+    href: routes.event.details,
+    title: "Seminar: Caring for children with autism",
+    slug: "seminar-caring-for-children-with-autism-3",
+  },
 ];
 
 export const team = [
