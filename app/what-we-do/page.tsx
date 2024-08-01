@@ -2,9 +2,9 @@ import Image from "next/image";
 import React from "react";
 
 import mission_bg from "../../public/img/unsplash_AEaTUnvneik.jpg";
+import DonationVolunteerCTA from "@/components/donation-cta";
 import ProjectSlider from "@/components/projects-slider";
 import { events, projects, what_we_do } from "@/config";
-import DonationVolunteerCTA from "@/components/donation-cta";
 import EventSlider from "@/components/events-slider";
 
 const WhatWeDo = () => {

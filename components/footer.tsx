@@ -52,7 +52,12 @@ const Footer = ({}: Props) => {
 
           <div className="flex flex-col gap-4 w-full">
             {socials.map(({ href, text }, i) => (
-              <Link key={i} href={href} className="whitespace-nowrap">
+              <Link
+                key={i}
+                href={href}
+                target="_blank"
+                className="whitespace-nowrap"
+              >
                 {text}
               </Link>
             ))}

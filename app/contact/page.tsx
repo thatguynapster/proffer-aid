@@ -1,13 +1,14 @@
-import ContactForm from "@/components/contact-form";
+import React, { ReactNode } from "react";
+import Link from "next/link";
+
 import {
   FacebookIcon,
   InstagramIcon,
   LinkedInIcon,
   TwitterIcon,
 } from "@/components/icons";
+import ContactForm from "@/components/contact-form";
 import { socials } from "@/config";
-import Link from "next/link";
-import React, { ReactNode } from "react";
 
 export default function Contact() {
   return (

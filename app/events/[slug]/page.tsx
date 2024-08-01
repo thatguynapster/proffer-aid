@@ -1,9 +1,9 @@
-import EventCard from "@/components/event-card";
-import EventSlider from "@/components/events-slider";
-import { events } from "@/config";
-import { CalendarIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import React from "react";
+
+import { CalendarIcon, MapPinIcon } from "@heroicons/react/24/outline";
+import EventCard from "@/components/event-card";
+import { events } from "@/config";
 
 type Props = { params: { slug: string } };
 

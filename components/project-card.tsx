@@ -1,19 +1,17 @@
-import { classNames } from "@/lib";
-import { IProject } from "@/types";
-import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+import { ChevronRightIcon } from "@heroicons/react/24/outline";
+import { IProject } from "@/types";
+
 const ProjectCard = ({ excerpt, href, image, name, slug }: IProject) => {
   return (
-    <div className="relative h-[411px] w-auto">
+    <div className="relative h-[411px] aspect-square snap-center">
       <Image
         src={image}
         alt={"Proffer Aid International Foundation"}
         fill
-        // width={411}
-        // height={411}
         className="object-cover rounded-3xl aspect-square"
         sizes="(max-width: 1200px) 100vw, (max-width: 768px) 50vw, 33vw"
       />

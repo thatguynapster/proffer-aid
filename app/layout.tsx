@@ -1,8 +1,8 @@
 import { Inter, Roboto } from "next/font/google";
 import type { Metadata } from "next";
+import { classNames } from "@/lib/helpers";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import { classNames } from "@/lib/helpers";
 import "./globals.css";
 
 const roboto = Roboto({

@@ -1,7 +1,8 @@
-import ProjectSlider from "@/components/projects-slider";
-import { projects } from "@/config";
 import Image from "next/image";
 import React from "react";
+
+import ProjectSlider from "@/components/projects-slider";
+import { projects } from "@/config";
 
 type Props = {
   params: { slug: string };

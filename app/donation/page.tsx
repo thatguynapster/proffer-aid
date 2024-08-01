@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import donation_bg from "../../public/img/donation.jpg";
-import { Tabs } from "@/components";
+
 import DonationVolunteerCTA from "@/components/donation-cta";
+import donation_bg from "../../public/img/donation.jpg";
 import DonationTabs from "@/components/donation-tabs";
 
 export default function Donation() {

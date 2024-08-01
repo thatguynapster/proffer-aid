@@ -23,7 +23,7 @@ const Navbar = () => {
       <Popover
         as="header"
         className={classNames(
-          "bg-dark/60 shadow-sm lg:overflow-y-visible sticky top-0",
+          "data-[open]:bg-white bg-dark/60 shadow-sm lg:overflow-y-visible sticky top-0",
           "data-[open]:fixed data-[open]:inset-0 z-50 data-[open]:overflow-y-auto data-[open]:lg:overflow-y-visible data-[open]:lg:sticky glass"
         )}
       >

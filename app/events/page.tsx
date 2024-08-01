@@ -1,7 +1,8 @@
+import React from "react";
+
 import DonationVolunteerCTA from "@/components/donation-cta";
 import EventCard from "@/components/event-card";
 import { events } from "@/config";
-import React from "react";
 
 const EventsPage = () => {
   return (
