@@ -4,6 +4,7 @@ import { classNames } from "@/lib/helpers";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import "./globals.css";
+import ModalProvider from "../providers/modal-provider";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -23,9 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={classNames(roboto.className, "relative")}>
-        <Navbar />
-        <main className="flex flex-col min-h-[70vh]">{children}</main>
-        <Footer />
+        <ModalProvider>
+          <Navbar />
+          <main className="flex flex-col min-h-[70vh]">{children}</main>
+          <Footer />
+        </ModalProvider>
       </body>
     </html>
   );

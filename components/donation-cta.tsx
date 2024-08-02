@@ -1,12 +1,20 @@
+"use client";
+
 import Image from "next/image";
-import React from "react";
-import donate_bg from "../public/img/unsplash_cVEOh_JJmEE.jpg";
 import Link from "next/link";
+import React from "react";
+
+import donate_bg from "../public/img/unsplash_cVEOh_JJmEE.jpg";
+import { useModal } from "@/providers/modal-provider";
 import { routes } from "@/routes";
+import CustomModal from "./custom-modal";
+import VolunteerForm from "./volunteer-form";
 
 type Props = {};
 
 const DonationVolunteerCTA = (props: Props) => {
+  const { setOpen } = useModal();
+
   return (
     <div className="bg-white py-8 lg:py-24 px-8 lg:px-28">
       <div className="relative w-full h-96">
@@ -28,7 +36,20 @@ const DonationVolunteerCTA = (props: Props) => {
             </h3>
 
             <div className="flex flex-col md:flex-row gap-8 text-center">
-              <div className="bg-secondary rounded-md px-8 py-4 font-medium">
+              <div
+                className="bg-secondary rounded-md px-8 py-4 font-medium cursor-pointer"
+                onClick={() => {
+                  setOpen(
+                    <CustomModal
+                      title="Join as a volunteer"
+                      subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspen varius enim in eros elementum tristique."
+                      size="sm"
+                    >
+                      <VolunteerForm />
+                    </CustomModal>
+                  );
+                }}
+              >
                 Join as a volunteer
               </div>
 
@@ -38,6 +59,23 @@ const DonationVolunteerCTA = (props: Props) => {
               >
                 Donate
               </Link>
+
+              {/* <div
+                className="bg-secondary rounded-md px-8 py-4 font-medium cursor-pointer"
+                onClick={() => {
+                  setOpen(
+                    <CustomModal
+                      title="Become a member"
+                      subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspen varius enim in eros elementum tristique."
+                      size="sm"
+                    >
+                      <VolunteerForm />
+                    </CustomModal>
+                  );
+                }}
+              >
+                Become a member
+              </div> */}
             </div>
           </div>
         </div>

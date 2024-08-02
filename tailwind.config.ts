@@ -13,7 +13,7 @@ const config: Config = {
         secondary: "#FCD01C",
         dark: "#0B0706",
         muted: "#525560",
-        "dark-muted": "#1D2130",
+        "dark-muted": "#595F75",
       },
     },
   },

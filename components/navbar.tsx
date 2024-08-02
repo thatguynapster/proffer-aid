@@ -1,17 +1,23 @@
 "use client";
 
-import React from "react";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
+import React from "react";
+
+import { useModal } from "@/providers/modal-provider";
 import { classNames } from "@/lib/helpers";
+import { Button } from "./button";
 import { routes } from "@/routes";
 import { pages } from "@/config";
 import Image from "next/image";
 import Link from "next/link";
+import CustomModal from "./custom-modal";
+import VolunteerForm from "./volunteer-form";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { setOpen } = useModal();
 
   const _handleActive = (link: string) => {
     return pathname.split("/")[1] === link.split("/")[1];
@@ -73,13 +79,30 @@ const Navbar = () => {
               </PopoverButton>
             </div>
 
-            <div className="hidden lg:flex lg:items-center lg:justify-end">
+            <div className="hidden lg:flex lg:items-center lg:justify-end gap-8">
               <Link
                 href={routes.donation}
                 className="w-full relative inline-flex justify-center items-center gap-x-1.5 rounded-md bg-dark px-8 py-3 font-medium text-white"
               >
                 Donate
               </Link>
+
+              <Button
+                className="w-full relative inline-flex justify-center items-center gap-x-1.5 rounded-md bg-secondary !px-8 !py-3 font-medium text-dark"
+                onClick={() => {
+                  setOpen(
+                    <CustomModal
+                      title="Become a member"
+                      subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspen varius enim in eros elementum tristique."
+                      size="sm"
+                    >
+                      <VolunteerForm />
+                    </CustomModal>
+                  );
+                }}
+              >
+                Become a member
+              </Button>
             </div>
           </div>
         </div>
