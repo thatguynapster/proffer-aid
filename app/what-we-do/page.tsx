@@ -3,9 +3,9 @@ import React from "react";
 
 import mission_bg from "../../public/img/unsplash_AEaTUnvneik.jpg";
 import DonationVolunteerCTA from "@/components/donation-cta";
-import ProjectSlider from "@/components/projects-slider";
 import { events, projects, what_we_do } from "@/config";
 import EventSlider from "@/components/events-slider";
+import ProjectCard from "@/components/project-card";
 
 const WhatWeDo = () => {
   return (
@@ -83,7 +83,14 @@ const WhatWeDo = () => {
             </h2>
           </div>
 
-          <ProjectSlider {...{ projects }} />
+          <div className="flex flex-nowrap gap-6 overflow-auto snap-x">
+            {projects.map(({ excerpt, href, image, name, slug }) => (
+              <ProjectCard
+                key={slug}
+                {...{ excerpt, href, image, name, slug }}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
