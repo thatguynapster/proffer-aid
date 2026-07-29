@@ -1,0 +1,108 @@
+import type { CollectionConfig, Where } from 'payload'
+
+import { hasRole, isAdmin, isContributorOrAbove, publishedOrAuthenticated } from '../access'
+import { slugField } from '../fields/slug'
+
+export const Updates: CollectionConfig = {
+  slug: 'updates',
+  labels: {
+    singular: 'Update',
+    plural: 'Updates',
+  },
+  admin: {
+    useAsTitle: 'title',
+    defaultColumns: ['title', 'category', 'date', '_status'],
+    group: 'Content',
+  },
+  versions: {
+    drafts: true,
+  },
+  access: {
+    read: publishedOrAuthenticated,
+    create: isContributorOrAbove,
+    update: ({ req: { user } }) => {
+      if (hasRole(user, 'admin', 'leadEditor', 'editor')) return true
+      // A Contributor may only edit their own drafts, and only while they are
+      // still drafts (PRD §2.4 — Contributors cannot publish).
+      if (hasRole(user, 'contributor')) {
+        const own: Where = {
+          and: [{ author: { equals: user!.id } }, { _status: { not_equals: 'published' } }],
+        }
+        return own
+      }
+      return false
+    },
+    delete: isAdmin,
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+    },
+    ...slugField(),
+    {
+      name: 'date',
+      type: 'date',
+      required: true,
+      defaultValue: () => new Date().toISOString(),
+      admin: {
+        position: 'sidebar',
+        date: { pickerAppearance: 'dayOnly' },
+      },
+    },
+    {
+      name: 'category',
+      type: 'select',
+      required: true,
+      defaultValue: 'outreach',
+      options: [
+        { label: 'Outreach', value: 'outreach' },
+        { label: 'Partnership', value: 'partnership' },
+        { label: 'Campaign', value: 'campaign' },
+      ],
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'author',
+      type: 'relationship',
+      relationTo: 'users',
+      admin: { position: 'sidebar', readOnly: true },
+      hooks: {
+        beforeChange: [
+          ({ req, value, operation }) =>
+            operation === 'create' && req.user ? req.user.id : value,
+        ],
+      },
+    },
+    {
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
+      name: 'excerpt',
+      type: 'textarea',
+      maxLength: 300,
+      admin: {
+        description: 'Shown in listings and as the social share description.',
+      },
+    },
+    {
+      name: 'body',
+      type: 'richText',
+    },
+    {
+      name: 'externalSource',
+      type: 'group',
+      admin: {
+        description:
+          'For press coverage hosted elsewhere. If set, listings link out instead of to a detail page.',
+      },
+      fields: [
+        { name: 'url', type: 'text' },
+        { name: 'publication', type: 'text' },
+      ],
+    },
+  ],
+}

@@ -194,7 +194,7 @@ At this scale an aggregation query per render is entirely fine; no denormalized 
 
 | Layer         | Choice                                                                          | Why                                                                                                                              |
 | ------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| Frontend      | Next.js 15 (App Router), React 19, TypeScript                                   | Fast, SEO-friendly (SSG/ISR for content pages), easy Vercel deploy. Payload 3 requires this baseline.                             |
+| Frontend      | **Next.js 16** (App Router), React 19, TypeScript 6                             | Fast, SEO-friendly (SSG/ISR for content pages), easy Vercel deploy. Payload 3.86 supports `>=16.2.6 <17`. **TypeScript pinned to 6** — Next 16's build worker rejects the TS 7 compiler API. |
 | CMS           | **Payload CMS 3 (self-hosted)**                                                 | MIT-licensed, no per-seat cost, custom code-level RBAC, embeds directly in the Next.js app                                        |
 | Database      | **MongoDB Atlas** via `@payloadcms/db-mongodb` (Mongoose)                       | Native support, no separate ORM. Managed (free M0 to start) so Napster's ops burden stays app-level, not database backups/patching |
 | **Media**     | **[AMENDED] AWS S3** via `@payloadcms/storage-s3`                               | **Required** — Vercel's filesystem is ephemeral, so uploads cannot go to local disk. Bucket already provisioned.                  |
