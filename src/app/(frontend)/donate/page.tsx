@@ -6,6 +6,7 @@ import { PageHero } from '../../../components/layout/PageHero'
 import { RichText } from '../../../components/RichText'
 import { Container } from '../../../components/ui/Container'
 import { donationsEnabled, getSettings } from '../../../lib/cms'
+import { getCampaignById } from '../../../lib/campaigns'
 import { getPage, pageMetadata } from '../../../lib/pages'
 
 export const revalidate = 300
@@ -21,10 +22,23 @@ export async function generateMetadata(): Promise<Metadata> {
  * the site cannot appear to solicit donations it has no way to receive. The
  * sitemap omits it on the same condition, so nothing indexes a URL that 404s.
  */
-export default async function DonatePage() {
+export default async function DonatePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ campaign?: string }>
+}) {
   if (!(await donationsEnabled())) notFound()
 
-  const [page, settings] = await Promise.all([getPage('donate'), getSettings()])
+  const [page, settings, params] = await Promise.all([
+    getPage('donate'),
+    getSettings(),
+    searchParams,
+  ])
+
+  // A campaign id in the query string is only ever a hint. It is resolved
+  // against the CMS here, so an unknown or deleted id degrades to a general
+  // donation rather than attributing money to something that doesn't exist.
+  const campaign = params.campaign ? await getCampaignById(params.campaign) : null
 
   return (
     <>
@@ -54,6 +68,8 @@ export default async function DonatePage() {
               <h2 className="font-display text-2xl text-navy-600">Make a donation</h2>
               <div className="mt-5">
                 <DonateForm
+                  campaignId={campaign ? String(campaign.id) : undefined}
+                  campaignTitle={campaign?.title}
                   feePercent={settings?.feePercent ?? 1.95}
                   feeCapPesewas={settings?.feeCapPesewas ?? 10000}
                 />

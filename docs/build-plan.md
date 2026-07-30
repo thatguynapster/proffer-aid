@@ -24,6 +24,7 @@ recovered content is documented in [`salvaged-content.md`](salvaged-content.md).
 - [x] **Privacy route + branded 404s** (see §3)
 - [x] **Access-control tests** — 21 assertions, found and fixed a publish vulnerability (see §4)
 - [x] **Donate + Paystack** — checkout, webhook, callback, 11 more tests (see §5)
+- [x] **Campaigns** — listing, detail, derived progress bar, homepage highlight (see §6)
 
 ---
 
@@ -222,19 +223,53 @@ POST to the webhook returns 401 and records nothing.
 
 ---
 
-## 6. Campaigns  ← next
+## 6. Campaigns — ✅ done
 
-- [ ] `/campaigns/[slug]` — story, budget breakdown table, gallery
-- [ ] Progress bar from the **derived** total (`sumRaisedForCampaign`)
-- [ ] Progress bar hidden when `donationsEnabled` is false
-- [ ] Empty state — no campaigns exist yet
+- [x] `/campaigns` listing with empty state
+- [x] `/campaigns/[slug]` — story, budget breakdown table, gallery
+- [x] Progress bar from the **derived** total (`sumRaisedForCampaign`)
+- [x] Progress bar and donate CTA hidden when `donationsEnabled` is false
+- [x] Campaign attribution wired through `/donate?campaign=<id>`
+- [x] `FeaturedCampaign` on the homepage, driven by `SiteSettings.featuredCampaign`
 
-**Notes:** there is no `raisedAmount` field and there must never be one. The
-total is `status: success` **and** `mode: live` only.
+**Verified with a real campaign and real donation records**, then cleaned up:
+
+| Donation added | Running total |
+| --- | --- |
+| — | 0 |
+| LIVE success GHS 2,500 | 250,000 pesewas |
+| TEST success GHS 5,000 | 250,000 — correctly ignored |
+| LIVE pending GHS 5,000 | 250,000 — correctly ignored |
+| LIVE failed GHS 5,000 | 250,000 — correctly ignored |
+| LIVE success GHS 1,500 | 400,000 |
+
+Page rendered `GH₵4,000` of `GH₵10,000` at "40% funded", with budget rows
+summing to the stated total. Empty state confirmed after teardown.
+
+**Decisions made:**
+
+- **The budget total is summed from its line items, never authored.** Two
+  numbers that must agree is one too many, and a stated total disagreeing with
+  its own rows undermines exactly the transparency the table exists for.
+- **A `?campaign=` id is treated as a hint, not a fact** — it is resolved
+  against the CMS, so an unknown or deleted id degrades to a general donation
+  rather than attributing money to something that doesn't exist.
+- **Progress is clamped to 100%**, so an over-funded campaign reads as complete
+  instead of overflowing its container.
+- **With donations off the sidebar pivots** to volunteering, partnership and
+  in-kind giving rather than rendering an empty panel.
+- `FeaturedCampaign` closes a gap: the field existed in SiteSettings and the
+  sitemap promised a "current campaign highlight", but nothing rendered it.
+
+**Note:** currency renders as `GH₵` (the cedi sign) via `en-GH`, not `GHS`.
+Correct for a Ghanaian audience — worth knowing if you go looking for it in
+markup.
+
+**Still true:** there is no `raisedAmount` field and there must never be one.
 
 ---
 
-## 7. SEO plumbing
+## 7. SEO plumbing  ← next
 
 - [ ] `sitemap.xml` — exclude `/donate` while `donationsEnabled` is false
 - [ ] `robots.txt`

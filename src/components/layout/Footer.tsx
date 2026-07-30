@@ -7,6 +7,7 @@ import { Container } from '../ui/Container'
 const SITEMAP = [
   { href: '/what-we-do', label: 'What we do' },
   { href: '/updates', label: 'Updates' },
+  { href: '/campaigns', label: 'Campaigns' },
   { href: '/about', label: 'About' },
   { href: '/get-involved', label: 'Get involved' },
   { href: '/contact', label: 'Contact' },

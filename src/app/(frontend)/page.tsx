@@ -1,4 +1,5 @@
-import type { Update } from '../../payload-types'
+import type { Campaign, Update } from '../../payload-types'
+import { FeaturedCampaign } from '../../components/home/FeaturedCampaign'
 import { Hero } from '../../components/home/Hero'
 import { ImpactStats } from '../../components/home/ImpactStats'
 import { PillarBand } from '../../components/home/PillarBand'
@@ -28,10 +29,18 @@ export default async function HomePage() {
     // Render the static shell rather than failing the page outright.
   }
 
+  // featuredCampaign may be an id or an already-populated document depending on
+  // query depth, so handle both rather than assuming.
+  const featured =
+    settings?.featuredCampaign && typeof settings.featuredCampaign === 'object'
+      ? (settings.featuredCampaign as Campaign)
+      : null
+
   return (
     <>
       <Hero tagline={settings?.tagline} showDonate={showDonate} />
       <UpdateStrip updates={updates} />
+      <FeaturedCampaign campaign={featured} showDonate={showDonate} />
       <ImpactStats
         counters={settings?.impactCounters ?? []}
         intro="Proffer Aid works with local health services, volunteers and partner organisations to reach communities where basic care is deficient, inefficient or absent."
