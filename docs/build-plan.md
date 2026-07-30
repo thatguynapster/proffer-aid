@@ -109,18 +109,25 @@ behind it. Unit-level checks passed while the feature was broken.
 
 ---
 
-## 3. Privacy route  ← next
+## 3. Privacy route — ✅ done
 
-- [ ] `/privacy` route exists
+- [x] `/privacy` route exists and 404s until the draft is published
+- [x] Branded 404 for `notFound()` inside the frontend group
+- [x] `global-not-found.tsx` for URLs matching no route at all
 
-**Notes:** the footer links to it. The page is seeded as an **unpublished
-draft** on purpose — it makes binding legal representations about personal data
-and must be written, not generated. It will 404 until someone publishes it; the
-route needs to exist so that 404 is deliberate rather than a missing route.
+**Notes:** the page is seeded as an **unpublished draft** on purpose — it makes
+binding legal representations about personal data and must be written, not
+generated. Publishing it in the CMS makes it live with no deploy.
+
+**Gotcha found:** `not-found.tsx` inside a route group only covers paths *within*
+that group. With `(frontend)` and `(payload)` both being groups there is no root
+layout, so a URL matching nothing had no layout and fell back to Next's default
+404. Fixed with `src/app/global-not-found.tsx`, which must be fully
+self-contained — its own `html`, `body`, fonts and styles.
 
 ---
 
-## 4. Access-control tests  ← do before the donation work
+## 4. Access-control tests  ← next (before the donation work)
 
 **Why here:** it is a §11 launch gate, it keeps sliding, and the donation work
 is exactly when the security surface grows.
