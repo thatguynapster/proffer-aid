@@ -915,6 +915,14 @@ export interface SiteSetting {
    */
   bankTransferDetails?: string | null;
   /**
+   * Paystack's processing fee, as a percentage. Used only for the optional 'cover the transaction fee' checkbox. Editable because processor rates change — confirm the current Ghana rate in your Paystack dashboard rather than trusting this default.
+   */
+  feePercent?: number | null;
+  /**
+   * Maximum fee in pesewas (GHS × 100). Paystack caps local fees; 10000 = GHS 100. Set to 0 for no cap.
+   */
+  feeCapPesewas?: number | null;
+  /**
    * Where volunteer, membership, and partnership submissions are sent. Editable here so it can change without a deploy.
    */
   notificationEmail?: string | null;
@@ -961,6 +969,8 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   donationsEnabled?: T;
   impactFraming?: T;
   bankTransferDetails?: T;
+  feePercent?: T;
+  feeCapPesewas?: T;
   notificationEmail?: T;
   updatedAt?: T;
   createdAt?: T;

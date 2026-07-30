@@ -21,6 +21,9 @@ recovered content is documented in [`salvaged-content.md`](salvaged-content.md).
 - [x] **Pages** — About (+ TeamGrid), What we do, Contact
 - [x] **Updates** — listing with category filter, detail pages, related updates (see §1)
 - [x] **Get involved** — FAQ accordion, three forms, server action with validation, honeypot and rate limiting (see §2)
+- [x] **Privacy route + branded 404s** (see §3)
+- [x] **Access-control tests** — 21 assertions, found and fixed a publish vulnerability (see §4)
+- [x] **Donate + Paystack** — checkout, webhook, callback, 11 more tests (see §5)
 
 ---
 
@@ -172,24 +175,54 @@ specified, and deliberate.
 
 ---
 
-## 5. Donate + Paystack  ← next
+## 5. Donate + Paystack — ✅ done
 
-- [ ] `/donate` page, 404 when `donationsEnabled` is false
-- [ ] Amount tiers in GHS (not the reference's USD)
-- [ ] Transaction-fee opt-in checkbox
-- [ ] Checkout init passing campaign reference as transaction metadata
-- [ ] `POST /api/paystack/webhook` — **verify HMAC-SHA512 against the raw body** before parsing
-- [ ] Idempotency on transaction `reference`
-- [ ] Write Donation with `mode` from `PAYSTACK_MODE`
-- [ ] `revalidatePath` for the affected campaign so progress bars aren't stale
+- [x] `/donate` page, 404 when `donationsEnabled` is false
+- [x] Amount tiers in GHS (not the reference's USD)
+- [x] Transaction-fee opt-in checkbox
+- [x] Checkout init passing campaign reference as transaction metadata
+- [x] Webhook verifying HMAC-SHA512 **against the raw body** before parsing
+- [x] Idempotency on transaction `reference`
+- [x] Donation written with `mode` from `PAYSTACK_MODE`
+- [x] `revalidatePath` for the affected campaign
+- [x] `/donate/complete` callback with server-side verification
+- [x] 11 webhook tests driving the real route handler (32 total, all passing)
 
-**Notes:** no monthly/recurring toggle — deferred to v2. Never trust the browser
-success callback; payment state comes from the webhook or a server-side verify.
-Local dev cannot receive webhooks — use a tunnel or server-side verification.
+**Verified over real HTTP:** with `donationsEnabled` off, `/donate` and
+`/donate/complete` both 404 and zero donate links render anywhere. An unsigned
+POST to the webhook returns 401 and records nothing.
+
+**Decisions made:**
+
+- **Webhook lives at `/webhooks/paystack`, not under `/api`.** Payload owns
+  `/api/*` through a catch-all; a sibling route there invites a conflict.
+- **`mode` comes from our own configuration, never from the event payload.** A
+  forged event must not be able to declare itself live and inflate a public
+  total. There is a test for exactly this.
+- **The callback records the donation too**, not just the webhook. Either path
+  alone suffices and `recordTransaction` is idempotent, so whichever lands first
+  wins — but a webhook that fails to deliver would otherwise silently lose the
+  donation.
+- **Fee rate is a CMS field, not a constant.** Processor rates change, and
+  hard-coding a percentage I cannot verify would quietly overcharge or
+  undercharge donors. Defaults to 1.95% with a GHS 100 cap; confirm the real
+  Ghana rate in the Paystack dashboard.
+- **Money is handled in pesewas end to end**, converted only for display. No
+  float arithmetic on currency.
+- No monthly/recurring toggle — deferred to v2, and a toggle with one working
+  option is worse than none.
+
+**Still needed before this can take a real payment:**
+
+- [ ] `PAYSTACK_SECRET_KEY` and `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY` in `.env`
+      (test keys are enough for now — the form shows "payments are not
+      configured" until they exist)
+- [ ] A tunnel (`cloudflared` / `ngrok`) to receive webhooks in local dev
+- [ ] One live end-to-end transaction after cutover to PAIF's account
 
 ---
 
-## 6. Campaigns
+## 6. Campaigns  ← next
 
 - [ ] `/campaigns/[slug]` — story, budget breakdown table, gallery
 - [ ] Progress bar from the **derived** total (`sumRaisedForCampaign`)

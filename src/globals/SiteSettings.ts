@@ -126,6 +126,29 @@ export const SiteSettings: GlobalConfig = {
               type: 'textarea',
               admin: { description: 'Shown on the donate page as an alternative to card payment.' },
             },
+            {
+              name: 'feePercent',
+              type: 'number',
+              defaultValue: 1.95,
+              min: 0,
+              max: 10,
+              access: { update: isAdminField },
+              admin: {
+                description:
+                  "Paystack's processing fee, as a percentage. Used only for the optional 'cover the transaction fee' checkbox. Editable because processor rates change — confirm the current Ghana rate in your Paystack dashboard rather than trusting this default.",
+              },
+            },
+            {
+              name: 'feeCapPesewas',
+              type: 'number',
+              defaultValue: 10000,
+              min: 0,
+              access: { update: isAdminField },
+              admin: {
+                description:
+                  'Maximum fee in pesewas (GHS × 100). Paystack caps local fees; 10000 = GHS 100. Set to 0 for no cap.',
+              },
+            },
           ],
         },
         {
