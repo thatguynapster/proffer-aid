@@ -95,6 +95,75 @@
   }
 }
 
+/*
+ * CMS rich text. Styled by descendant selector rather than per-node JSX
+ * converters, so any node an editor reaches for renders sensibly without a
+ * code change.
+ */
+@layer components {
+  .richtext {
+    @apply text-base leading-relaxed text-navy-600/80;
+  }
+
+  .richtext > * + * {
+    @apply mt-5;
+  }
+
+  .richtext h2 {
+    @apply font-display mt-12 text-display-sm text-navy-600;
+  }
+
+  .richtext h3 {
+    @apply mt-9 text-lg font-semibold text-navy-600;
+  }
+
+  .richtext h4 {
+    @apply mt-7 text-base font-semibold text-navy-600;
+  }
+
+  .richtext ul,
+  .richtext ol {
+    @apply space-y-2.5 pl-1;
+  }
+
+  .richtext li {
+    @apply relative pl-6;
+  }
+
+  .richtext ul > li::before {
+    @apply absolute left-0 top-[0.6em] size-2 rounded-full bg-gold-500 content-[''];
+  }
+
+  .richtext ol {
+    @apply list-decimal pl-6;
+  }
+
+  .richtext ol > li {
+    @apply pl-1;
+  }
+
+  .richtext a {
+    @apply text-ochre underline decoration-gold-500 decoration-2 underline-offset-2 hover:decoration-ochre;
+  }
+
+  .richtext strong {
+    @apply font-semibold text-navy-600;
+  }
+
+  .richtext blockquote {
+    @apply border-l-4 border-gold-500 pl-5 text-lg text-navy-600 italic;
+  }
+
+  .richtext img {
+    @apply rounded-card;
+  }
+
+  /* Tables must scroll rather than force the page to scroll sideways. */
+  .richtext table {
+    @apply block w-full overflow-x-auto text-sm;
+  }
+}
+
 @utility text-stroke-navy {
   -webkit-text-stroke: 2px var(--color-navy-600);
   -webkit-text-fill-color: transparent;

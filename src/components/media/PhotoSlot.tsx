@@ -26,6 +26,16 @@ export type PhotoSlotProps = {
   priority?: boolean
   /** Renders the label in cream for use over dark sections. */
   onDark?: boolean
+  /**
+   * How the slot positions itself. `next/image` with `fill` needs a positioned
+   * ancestor, so this is set explicitly rather than left to the caller's
+   * className: `relative` and `absolute` are both single-class utilities of
+   * equal specificity, so which one wins depends on stylesheet order rather
+   * than the order they appear in the class attribute. Passing `absolute` in
+   * className while the component hardcoded `relative` silently collapsed the
+   * box to zero height.
+   */
+  position?: 'relative' | 'absolute'
 }
 
 export function PhotoSlot({
@@ -37,10 +47,11 @@ export function PhotoSlot({
   sizes = '(max-width: 768px) 100vw, 50vw',
   priority = false,
   onDark = false,
+  position = 'relative',
 }: PhotoSlotProps) {
   if (src) {
     return (
-      <div className={`relative overflow-hidden ${className}`}>
+      <div className={`${position} overflow-hidden ${className}`}>
         <Image
           src={src}
           alt={alt ?? ''}
@@ -57,7 +68,7 @@ export function PhotoSlot({
     <div
       role="img"
       aria-label={`Placeholder — photograph needed: ${need}`}
-      className={`relative flex flex-col items-center justify-center gap-2 overflow-hidden p-4 text-center ${
+      className={`${position} flex flex-col items-center justify-center gap-2 overflow-hidden p-4 text-center ${
         onDark ? 'bg-navy-700 text-cream/70' : 'bg-navy-600/8 text-navy-600/60'
       } ${className}`}
       style={{

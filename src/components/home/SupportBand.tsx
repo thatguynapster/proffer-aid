@@ -24,7 +24,8 @@ export function SupportBand({
         need="Wide shot — health education session or community gathering"
         spec="2400×1200"
         sizes="100vw"
-        className="absolute inset-0 -z-10 h-full w-full"
+        position="absolute"
+        className="inset-0 -z-10 h-full w-full"
         onDark
       />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-navy-600/80" />

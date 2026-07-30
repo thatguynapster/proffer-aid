@@ -20,7 +20,8 @@ export function PillarBand() {
         need="Wide documentary shot — community outreach in progress"
         spec="2400×1200"
         sizes="100vw"
-        className="absolute inset-0 -z-10 h-full w-full"
+        position="absolute"
+        className="inset-0 -z-10 h-full w-full"
         onDark
       />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-navy-600/70" />

@@ -50,7 +50,13 @@ export default async function FrontendLayout({ children }: { children: React.Rea
   const showDonate = await donationsEnabled()
 
   return (
-    <html lang="en" className={`${anton.variable} ${inter.variable}`}>
+    // data-scroll-behavior opts into Next's smooth-scroll handling for route
+    // transitions; without it Next warns and jumps abruptly between routes.
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${anton.variable} ${inter.variable}`}
+    >
       <body className="flex min-h-screen flex-col">
         <a
           href="#main"
