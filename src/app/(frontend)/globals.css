@@ -1,31 +1,118 @@
 @import 'tailwindcss';
 
 /*
- * Design tokens. Placeholder values — the real palette lands in Week 2 with
- * the design system, once the current brand mark is confirmed (PRD §2.5).
+ * Design tokens.
+ *
+ * Palette derived from the actual logo (public/img/logo-square.png): deep navy
+ * #101060 and gold #FDCD01, corroborated by the old site's stylesheet which
+ * used #fdcd01 on its impact counters. Cream ground carried over from the
+ * design reference.
+ *
+ * CONTRAST RULE — read before using gold:
+ *   gold on cream  = ~1.5:1  FAILS at every size. Never use for text.
+ *   gold on navy   = ~11:1   excellent. Text on gold fills must be navy.
+ *   navy on cream  = ~15:1   excellent. This is the default text pairing.
+ *   ochre on cream = ~5.4:1  passes AA for body text. Use for text accents.
+ * The design reference used coral for accent text; gold cannot play that role,
+ * so accent *text* uses --color-ochre and gold is reserved for fills.
  */
 @theme {
-  --color-brand-50: oklch(0.97 0.02 155);
-  --color-brand-100: oklch(0.94 0.04 155);
-  --color-brand-500: oklch(0.62 0.13 155);
-  --color-brand-600: oklch(0.54 0.13 155);
-  --color-brand-700: oklch(0.45 0.11 155);
-  --color-brand-900: oklch(0.29 0.07 155);
+  --color-navy-50: #eeeef7;
+  --color-navy-100: #d6d6ec;
+  --color-navy-200: #adaed9;
+  --color-navy-300: #8385c6;
+  --color-navy-400: #4a4d9e;
+  --color-navy-500: #262873;
+  --color-navy-600: #101060;
+  --color-navy-700: #0d0d4e;
+  --color-navy-800: #09093a;
+  --color-navy-900: #060626;
 
-  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --color-gold-300: #fee36b;
+  --color-gold-400: #fed935;
+  --color-gold-500: #fdcd01;
+  --color-gold-600: #d9ae00;
+
+  /* Accessible warm accent for text on cream. */
+  --color-ochre: #8a5a00;
+
+  --color-cream: #f2f0eb;
+  --color-cream-dark: #e6e3db;
+  --color-paper: #ffffff;
+
+  --font-display: var(--font-anton), 'Arial Narrow', system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Display scale — condensed all-caps needs tighter leading than body. */
+  --text-display-sm: 2rem;
+  --text-display-sm--line-height: 0.95;
+  --text-display-md: 3rem;
+  --text-display-md--line-height: 0.92;
+  --text-display-lg: 4.5rem;
+  --text-display-lg--line-height: 0.88;
+  --text-display-xl: 7rem;
+  --text-display-xl--line-height: 0.84;
+
+  --radius-pill: 999px;
+  --radius-card: 1.25rem;
+  --radius-lozenge: 6rem;
 }
 
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-white text-slate-900 antialiased;
+    @apply bg-cream text-navy-600 antialiased;
+    font-family: var(--font-sans);
   }
 
-  /* Visible focus is part of the WCAG AA baseline (PRD §11). */
+  /* The display face is caps-only by design. Applying the transform in CSS
+     keeps the underlying content readable in the CMS and to screen readers. */
+  .font-display {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    font-weight: 400;
+  }
+
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand-600;
+    @apply outline-2 outline-offset-2 outline-navy-600;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility text-stroke-navy {
+  -webkit-text-stroke: 2px var(--color-navy-600);
+  -webkit-text-fill-color: transparent;
+  paint-order: stroke fill;
+}
+
+@utility text-stroke-cream {
+  -webkit-text-stroke: 2px var(--color-cream);
+  -webkit-text-fill-color: transparent;
+  paint-order: stroke fill;
+}
+
+/* Horizontal rails: scroll-snap without visible scrollbars. */
+@utility rail {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
