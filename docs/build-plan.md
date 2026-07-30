@@ -20,6 +20,7 @@ recovered content is documented in [`salvaged-content.md`](salvaged-content.md).
 - [x] **RichText renderer** — Payload's Lexical converters, styled via `.richtext`
 - [x] **Pages** — About (+ TeamGrid), What we do, Contact
 - [x] **Updates** — listing with category filter, detail pages, related updates (see §1)
+- [x] **Get involved** — FAQ accordion, three forms, server action with validation, honeypot and rate limiting (see §2)
 
 ---
 
@@ -49,24 +50,66 @@ resolves — nav, homepage UpdateStrip, StoriesRail cards.
 
 ---
 
-## 2. Get involved + forms  ← next
+## 2. Get involved + forms — ✅ done
 
-- [ ] `/get-involved` page rendering the seeded FAQ
-- [ ] FAQ accordion component (driven off `h3` headings in the page body — no schema change)
-- [ ] Volunteer form — name, contact, availability, area of interest, motivation
-- [ ] Membership form — name, contact, occupation, reason for joining
-- [ ] Partnership form — organisation, contact, type, message
-- [ ] `POST /api/forms` — validation, honeypot, rate limiting, `overrideAccess` write to FormSubmissions
-- [ ] Resend notification via the existing `afterChange` hook
-- [ ] Success/error states, and a no-JS fallback path
+- [x] `/get-involved` page rendering the seeded FAQ
+- [x] FAQ accordion (driven off `h3` headings in the page body — no schema change)
+- [x] Volunteer form — name, contact, availability, area of interest, motivation
+- [x] Membership form — name, contact, occupation, reason for joining
+- [x] Partnership form — organisation, contact, type, message
+- [x] Server-side validation, honeypot, rate limiting, `overrideAccess` write
+- [x] Resend notification via the existing `afterChange` hook
+- [x] Success/error states, and a no-JS fallback path
 
-**Notes:** `FormSubmissions.create` is `isNobody` by design — only the API route
-writes, after validating. The recipient is `SiteSettings.notificationEmail`, not
-an env var, so it can change without a deploy.
+**Verified** (9/9 assertions): valid payload accepted; missing and malformed
+fields rejected; over-length rejected; undeclared fields stripped; rate limit
+blocks after 5; write succeeds; **direct create without `overrideAccess`
+rejected**; **unauthenticated read rejected**; record retrievable by admin.
+
+**Decisions made:**
+
+- **Server action, not a fetch API route** (a deviation from PRD §7's wording).
+  React 19 form actions post natively when JavaScript is unavailable or still
+  loading, which matters for the bandwidth-constrained traffic this site
+  targets. With JS the same action gives inline errors and a pending state.
+- **`FORM_FIELDS` drives both rendering and validation**, so the form and its
+  server-side checks cannot drift apart. Only fields declared for that form type
+  are carried through, so unexpected keys can't be smuggled into the document.
+- **Honeypot returns success, not an error.** Telling a bot it was detected
+  only invites it to adapt.
+- **FAQ uses native `<details>`/`<summary>`** — works without JS, gets keyboard
+  and screen-reader semantics from the platform, and find-in-page can open a
+  closed section to reveal a match.
+- **Form choice is a link** (`?form=membership`), matching the updates filter:
+  shareable URLs, works without JS.
+- Validation failures echo back submitted values so a long message isn't lost
+  when JS is off.
+
+**Known limitation:** rate limiting is an in-memory sliding window, so on
+Vercel it is per-instance rather than global. It stops naive floods but is not a
+real distributed limit — that needs Redis/Upstash. PRD §11 asks only for "basic
+rate limiting"; this is the thing to replace if abuse becomes real.
+
+**Not yet exercised:** the Resend notification path. `RESEND_API_KEY` is unset,
+so Payload logs email to console instead of sending. Needs a live check once
+the domain is verified.
+
+**Bugs found after the unit checks passed** — both invisible to verification
+that exercised the validation functions directly without loading the page:
+
+- A `'use server'` module may only export async functions; `actions.ts` was also
+  exporting `initialFormState` and the `FormState` type. Moved to
+  `lib/form-state.ts` — they cannot move back.
+- `noValidate` on the form had disabled the browser's `required` and
+  `type="email"` enforcement, so empty forms submitted. Native validation is now
+  on; server-side validation remains the security boundary.
+
+**Lesson for the donation work:** drive the real flow, not just the functions
+behind it. Unit-level checks passed while the feature was broken.
 
 ---
 
-## 3. Privacy route
+## 3. Privacy route  ← next
 
 - [ ] `/privacy` route exists
 
