@@ -19,29 +19,37 @@ recovered content is documented in [`salvaged-content.md`](salvaged-content.md).
 - [x] **Homepage** — Hero (image-in-text wordmark), UpdateStrip, ImpactStats, PillarBand, StoriesRail (expanding), SupportBand
 - [x] **RichText renderer** — Payload's Lexical converters, styled via `.richtext`
 - [x] **Pages** — About (+ TeamGrid), What we do, Contact
+- [x] **Updates** — listing with category filter, detail pages, related updates (see §1)
 
 ---
 
-## 1. Updates listing + detail  ← next
+## 1. Updates listing + detail — ✅ done
 
-**Why first:** every link to `/updates` and `/updates/[slug]` currently 404s —
-the nav item, the homepage UpdateStrip, and every StoriesRail card. Four seeded
-updates give it real content immediately. Also the last purely read-only piece;
-everything after involves forms or payments.
+- [x] `/updates` — listing, newest first, category filter
+- [x] `/updates/[slug]` — detail page, `generateStaticParams`
+- [x] External-source updates link out instead of to a detail page (`externalSource.url`)
+- [x] `notFound()` for unpublished/missing slugs
+- [x] Per-page metadata + OpenGraph from cover image
+- [x] Related updates — same category first, then anything else
 
-- [ ] `/updates` — listing, newest first, category filter
-- [ ] `/updates/[slug]` — detail page, `generateStaticParams`
-- [ ] External-source updates link out instead of to a detail page (`externalSource.url`)
-- [ ] `notFound()` for unpublished/missing slugs
-- [ ] Per-page metadata + OpenGraph from cover image
+**Outcome:** all four detail pages prerender. Every previously dead link now
+resolves — nav, homepage UpdateStrip, StoriesRail cards.
 
-**Notes:** no accordion on detail pages — that was declined, and the four
-recovered updates are plain articles that would leave it empty. Cover images are
-all missing, so expect PhotoSlot placeholders throughout.
+**Decisions made:**
+
+- The category filter is plain links (`/updates?category=…`) rather than client
+  state, so it works without JavaScript and each view is a shareable URL. This
+  makes the listing dynamic rather than prerendered — an acceptable trade at
+  this content volume.
+- An unrecognised category falls back to the full list rather than rendering an
+  empty state, so a typo'd query string doesn't look like missing content.
+- No accordion on detail pages — declined, and the recovered updates are plain
+  articles that would leave it empty.
+- Cover images are all missing, so PhotoSlot placeholders show throughout.
 
 ---
 
-## 2. Get involved + forms
+## 2. Get involved + forms  ← next
 
 - [ ] `/get-involved` page rendering the seeded FAQ
 - [ ] FAQ accordion component (driven off `h3` headings in the page body — no schema change)
