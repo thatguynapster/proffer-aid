@@ -1,4 +1,5 @@
 import type { CollectionConfig, Where } from 'payload'
+import { APIError } from 'payload'
 
 import { hasRole, isAdmin, isContributorOrAbove, publishedOrAuthenticated } from '../access'
 import { slugField } from '../fields/slug'
@@ -34,6 +35,29 @@ export const Updates: CollectionConfig = {
     },
     delete: isAdmin,
   },
+  hooks: {
+    beforeChange: [
+      ({ data, req, operation }) => {
+        // Collection access returns a `where` clause, which constrains WHICH
+        // documents a Contributor may touch — not WHICH VALUES they may write.
+        // Their own draft satisfies that clause, so without this guard they can
+        // set _status to published and publish it themselves, which is exactly
+        // what the role is defined to prevent (PRD §2.4, §11b).
+        //
+        // Field-level access cannot cover this: _status is supplied by the
+        // drafts feature rather than declared in `fields`.
+        if (data?._status === 'published' && hasRole(req.user, 'contributor')) {
+          throw new APIError(
+            'Contributors cannot publish. Save as a draft and ask an Editor to review it.',
+            403,
+          )
+        }
+        void operation
+        return data
+      },
+    ],
+  },
+
   fields: [
     {
       name: 'title',

@@ -127,22 +127,52 @@ self-contained — its own `html`, `body`, fonts and styles.
 
 ---
 
-## 4. Access-control tests  ← next (before the donation work)
+## 4. Access-control tests — ✅ done
 
-**Why here:** it is a §11 launch gate, it keeps sliding, and the donation work
-is exactly when the security surface grows.
+`npm test` — 21 assertions, vitest, running against a real Payload instance and
+database. Mocking the access layer would only prove the mock behaves.
 
-- [ ] Lead Editor cannot assign `admin` or `leadEditor`
-- [ ] Lead Editor cannot reach an Admin's account
-- [ ] Contributor cannot publish, and can only edit their own drafts
-- [ ] Editor cannot read or write SiteSettings
-- [ ] `FormSubmissions` publicly creatable, not publicly readable
-- [ ] `Donations` unreadable below Lead Editor, never public
-- [ ] Deactivated (`active: false`) users cannot authenticate
+- [x] Lead Editor cannot assign `admin` or `leadEditor`
+- [x] Lead Editor cannot reach an Admin's account
+- [x] Lead Editor *can* assign an allowed role (positive control)
+- [x] Contributor cannot change their own role
+- [x] Contributor cannot publish, cannot create pre-published, cannot edit others' drafts
+- [x] Editor and Lead Editor cannot write SiteSettings
+- [x] `FormSubmissions` not creatable or readable anonymously, not readable by Editor
+- [x] `Donations` unreadable below Lead Editor; readable by Lead Editor; undeletable by anyone
+- [x] Deactivated (`active: false`) users cannot authenticate; active ones can
+
+### 🔴 Vulnerability found and fixed
+
+**A Contributor could publish.** Collection access returns a `where` clause,
+which constrains *which documents* a user may touch — not *which values* they
+may write. A Contributor's own draft satisfies the clause, so setting
+`_status: 'published'` went straight through. Field-level access can't cover it
+either: `_status` comes from the drafts feature and isn't declared in `fields`.
+
+Fixed with a `beforeChange` guard on Updates that rejects a publish attempt by a
+Contributor, on **create as well as update** — creating an already-published
+document is the obvious way around a guard that only covers updates.
+
+### Two lessons worth keeping
+
+- **Fixture users must carry the full document, not just an id.** The first run
+  had `{id, email}` only, so every access check read `role: undefined` and
+  denied everything. Fifteen assertions "passed" — and would have passed with
+  access control deleted entirely. The positive controls are what exposed it;
+  every rule is now tested from both directions.
+- **Payload silently drops a field the user may not write, rather than
+  throwing.** Asserting on an exception is therefore meaningless for field-level
+  rules. Assert the resulting state instead.
+
+**Deviation from PRD §11d:** the PRD says `FormSubmissions` should be "publicly
+creatable". It is not — `create` is `isNobody`, and the server action writes with
+`overrideAccess` after validating, honeypotting and rate-limiting. Stricter than
+specified, and deliberate.
 
 ---
 
-## 5. Donate + Paystack
+## 5. Donate + Paystack  ← next
 
 - [ ] `/donate` page, 404 when `donationsEnabled` is false
 - [ ] Amount tiers in GHS (not the reference's USD)
@@ -236,4 +266,6 @@ Not developer work — these need chasing.
 | `npm run seed` | Seed salvaged content (skips existing, never overwrites) |
 | `npm run seed:media` | Re-upload media to the current storage adapter |
 | `npm run generate:types` | After any collection change |
+| `npm test` | Access-control assertions (needs a live `DATABASE_URI`) |
+| `npm run test:watch` | Same, in watch mode |
 | `npm run generate:importmap` | After adding admin components |

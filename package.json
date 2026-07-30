@@ -16,7 +16,9 @@
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/index.ts",
-    "seed:media": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/reupload-media.ts"
+    "seed:media": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/reupload-media.ts",
+    "test": "cross-env NODE_OPTIONS=--no-deprecation vitest run",
+    "test:watch": "cross-env NODE_OPTIONS=--no-deprecation vitest"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "^3.86.0",
@@ -41,6 +43,7 @@
     "sass": "^1.102.0",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.1",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
   }
 }
