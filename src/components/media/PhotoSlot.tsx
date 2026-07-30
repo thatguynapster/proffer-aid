@@ -105,8 +105,13 @@ export function WordmarkFill({
       className={`bg-navy-600 bg-clip-text text-transparent ${className}`}
       style={{
         backgroundImage: `linear-gradient(rgba(16,16,96,0.45), rgba(16,16,96,0.45)), url(${src})`,
+        // `cover` on the element's box, so the caller controls the crop by
+        // sizing that box. Note the box must be at least as tall as the
+        // letterforms or the uncovered glyph areas paint nothing and read as
+        // clipped text — see the note at the Hero call site.
         backgroundSize: 'cover',
         backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
       }}
     >
       {children}

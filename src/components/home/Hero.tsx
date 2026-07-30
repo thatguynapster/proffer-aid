@@ -29,22 +29,29 @@ export function Hero({
         </h1>
 
         {/*
-          Line spacing is controlled by the flex `gap`, not by line-height.
-          Anton's line box is much taller than its caps, so tuning a single
-          line-height either collapses the lines into each other or leaves a
-          gap far larger than it looks like it should. Splitting the two lets
-          `leading` set how tight each line's own box is, and `gap` set the
-          space between them — independently, and predictably.
+          Two things are load-bearing here, both easy to break by "tidying".
+
+          1. `background-clip: text` clips the background to the glyphs, but the
+             background only paints inside the element's own box. A line-height
+             tighter than the letterforms leaves the ascender and descender
+             regions unpainted, which looks exactly like the text being cut off
+             top and bottom. So the paint box is grown with `py-[0.18em]` and
+             the space that padding would add is removed again with
+             `-my-[0.18em]` — the box covers the glyphs, the layout is
+             unaffected, and `leading` is free to stay tight.
+
+          2. The fill lives on the wrapper, not on each word. One background
+             across both lines means the photograph reads as a single
+             continuous image behind PROFFER AID, rather than each word
+             cropping its own copy independently.
         */}
-        <div
-          aria-hidden="true"
-          className="flex flex-col items-center gap-[0.08em] text-[22vw] leading-[0.78] sm:text-[19vw] lg:text-[17vw]"
-        >
-          <WordmarkFill src="/img/photos/outreach-screening.jpg" className="font-display block tracking-[-0.02em]">
-            Proffer
-          </WordmarkFill>
-          <WordmarkFill src="/img/photos/outreach-screening.jpg" className="font-display block tracking-[-0.02em]">
-            Aid
+        <div aria-hidden="true" className="text-[22vw] sm:text-[19vw] lg:text-[17vw]">
+          <WordmarkFill
+            src="/img/photos/outreach-screening.jpg"
+            className="font-display block py-[0.18em] my-[-0.08em] text-center leading-none tracking-[-0.02em]"
+          >
+            <span className="block">Proffer</span>
+            <span className="block mt-[-0.08em]">Aid</span>
           </WordmarkFill>
         </div>
 

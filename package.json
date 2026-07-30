@@ -15,7 +15,8 @@
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/index.ts"
+    "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/index.ts",
+    "seed:media": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/reupload-media.ts"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "^3.86.0",
