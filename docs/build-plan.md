@@ -314,6 +314,17 @@ canonical tags is the worse failure. `.env` sets it explicitly for local dev.
       origin Paystack redirects back to after a local test payment.
 - [ ] Apex → `www` 301 at the DNS/host layer (nothing in the app does this).
 
+That variable now also controls **whether the site can be indexed at all**.
+`IS_INDEXABLE` in `src/lib/site-url.ts` is true only when it is set exactly to
+the canonical origin; every other deployment — staging, previews, and any build
+that forgot the variable — serves `Disallow: /` plus a `noindex` meta tag.
+
+It fails closed on purpose. A staging build that gets indexed puts a duplicate
+of the site into Google under a URL nobody controls and splits what little
+authority the new `.com` has; a production build that is accidentally invisible
+gets noticed within a day. Note that `NEXT_PUBLIC_*` is inlined at build time,
+so flipping this on requires a **redeploy**, not just a settings change.
+
 ---
 
 ## 8. Admin panel  ← next

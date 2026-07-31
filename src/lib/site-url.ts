@@ -16,6 +16,26 @@
  *
  * `www` is canonical; the apex redirects to it (see docs/build-plan.md §7).
  */
-export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SERVER_URL || 'https://www.profferaid.com'
-).replace(/\/$/, '')
+export const CANONICAL_ORIGIN = 'https://www.profferaid.com'
+
+const configured = process.env.NEXT_PUBLIC_SERVER_URL?.replace(/\/$/, '')
+
+export const SITE_URL = configured || CANONICAL_ORIGIN
+
+/**
+ * Whether this deployment is allowed to be indexed by search engines.
+ *
+ * Fails CLOSED, and the asymmetry is the whole point: a staging build that gets
+ * indexed puts a duplicate of the site into Google under a URL nobody controls,
+ * splits what little authority the new `.com` has, and is slow and awkward to
+ * undo once crawled. A production build that is accidentally *not* indexed gets
+ * noticed within a day and fixed in a minute. Given the choice, be invisible.
+ *
+ * So indexing requires `NEXT_PUBLIC_SERVER_URL` to be set, explicitly, to the
+ * canonical production origin. Preview and staging deployments set it to their
+ * own URL (they have to — it is also the Paystack callback origin) and are
+ * therefore blocked automatically, with no extra variable to remember. A deploy
+ * that forgets the variable entirely is blocked too, rather than inheriting the
+ * production fallback above and looking live to a crawler.
+ */
+export const IS_INDEXABLE = configured === CANONICAL_ORIGIN

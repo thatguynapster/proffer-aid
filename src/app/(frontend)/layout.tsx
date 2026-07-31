@@ -6,7 +6,7 @@ import { Footer } from '../../components/layout/Footer'
 import { Navbar } from '../../components/layout/Navbar'
 import { StructuredData } from '../../components/StructuredData'
 import { donationsEnabled, getSettings } from '../../lib/cms'
-import { SITE_URL } from '../../lib/site-url'
+import { IS_INDEXABLE, SITE_URL } from '../../lib/site-url'
 
 import './globals.css'
 
@@ -54,6 +54,9 @@ export async function generateMetadata(): Promise<Metadata> {
       images: [{ url: '/og-default.png', width: 1200, height: 630, alt: name }],
     },
     twitter: { card: 'summary_large_image', title: name, description },
+    // Belt and braces with robots.ts: a disallow in robots.txt stops crawling
+    // but does not stop a linked-to URL being indexed. This does.
+    ...(IS_INDEXABLE ? {} : { robots: { index: false, follow: false } }),
     icons: { icon: '/favicon.ico' },
   }
 }
