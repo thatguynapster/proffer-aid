@@ -38,6 +38,15 @@ export default buildConfig({
     },
     meta: {
       titleSuffix: '— Proffer Aid',
+      icons: [{ rel: 'icon', type: 'image/x-icon', url: '/favicon.ico' }],
+    },
+    components: {
+      graphics: {
+        // Paths resolve against `importMap.baseDir` above (src/), not the
+        // tsconfig `@/` alias — the import-map generator does not read those.
+        Logo: '/components/admin/Logo#Logo',
+        Icon: '/components/admin/Icon#Icon',
+      },
     },
   },
 

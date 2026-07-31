@@ -316,6 +316,113 @@ canonical tags is the worse failure. `.env` sets it explicitly for local dev.
 
 ---
 
+## 8. Admin panel  ← next
+
+Never tracked in this plan, which is how the bug below survived: the panel was
+treated as "Payload provides it" and never actually looked at.
+
+- [x] **Admin CSS was never imported.** `src/app/(payload)/layout.tsx` imported
+      `custom.scss` but not `@payloadcms/next/css`. Payload's `RootLayout` ships
+      no styles of its own, so `/admin` rendered as unstyled markup. One line.
+      Verified by fetching `/admin` and confirming the served bundle now carries
+      Payload's admin classes.
+
+- [x] **Brand the panel** — navy/gold theme in `custom.scss`, PAIF logo on the
+      login screen, square mark in the sidebar.
+- [x] Admin favicon (`admin.meta.icons`)
+- [ ] Log in as each of the five roles and confirm the panel *reads* correctly —
+      access control is enforced and tested (§4), but nobody has checked what a
+      Contributor actually sees.
+
+### How the theme works
+
+Payload derives nearly everything — page background, text, borders, primary
+buttons, every `--theme-elevation-*` step — from one greyscale ramp,
+`--color-base-0` (white) through `--color-base-1000` (black). Retinting that
+single ramp toward navy brands both light and dark mode at once, instead of
+chasing hundreds of component selectors. The dark end converges on the real
+`#101060`, so body text and primary buttons land on the actual brand token.
+
+Two things worth knowing before editing `custom.scss`:
+
+- **Light-mode overrides must not use bare `:root`.** The file loads after
+  Payload's stylesheet, so a plain `:root` rule out-ranks Payload's own
+  `[data-theme=dark]` block on source order and breaks dark mode outright. The
+  light block is scoped `:root:not([data-theme='dark'])` to raise specificity
+  above it. The base ramp *is* set on plain `:root` — deliberately, because it
+  is theme-agnostic and both modes should inherit it.
+- **The gold contrast rule from the public site applies here too.** Gold on
+  cream is ~1.5:1 and fails at every size, so gold is used only as a fill: the
+  active-nav indicator bar, and the primary button's hover state (gold ground,
+  navy text, ~11:1). The focus outline stays `--theme-text` navy — a gold focus
+  ring on a light surface would be nearly invisible, which is worse than
+  unbranded.
+
+**Inter, via `htmlProps`.** `RootLayout` renders its own `<html>` and accepts
+`htmlProps`, which is the only place a next/font variable can go and still be
+visible to `--font-body` at `:root` — a wrapper inside `<body>` is too late.
+Anton stays on the public site: it is a condensed all-caps display face and
+would be actively hostile in a CMS read for hours.
+
+### Light mode is the site's palette, unchanged
+
+Every step of the light ramp is either a token lifted verbatim from
+`globals.css` or a midpoint between two adjacent ones. Payload wants 21
+evenly-spaced steps and the site's navy scale has 10, so the gaps are
+interpolated rather than invented — the marked steps in `custom.scss` are the
+real tokens. Body text lands on `navy-700`, the primary action on `navy-600`,
+the canvas on `cream` with white input wells.
+
+### Dark mode is built, not inverted
+
+Payload constructs dark mode by flipping the light ramp end for end, which would
+put `navy-800 #09093a` — 73% saturated at 13% lightness — on screen as the page
+canvas. Saturated blue that dark is the worst thing to ask someone to stare at,
+and it was the main reason the first pass was unusable. So the dark elevations
+are overridden outright: same navy hue, chroma pulled back to roughly a third,
+canvas at `#14152b`, and text resolving to brand **cream** rather than pure
+white. Warm off-white on cool dark navy is easier on the eye than white-on-black
+*and* more the site's own than a neutral grey.
+
+Because Payload sets these in a `[data-theme=dark]` block of equal specificity,
+the overrides win purely on source order — this file loading last is what makes
+them apply. Don't reorder the imports in `(payload)/layout.tsx`.
+
+Measured contrast, both modes:
+
+| Pair | Ratio | |
+| --- | --- | --- |
+| Light — body text on cream | 15.6 | AAA |
+| Light — muted text on cream | 6.5 | AA |
+| Light — primary button, cream on navy-600 | 14.6 | AAA |
+| Dark — body cream on canvas | 15.7 | AAA |
+| Dark — secondary text on canvas | 10.6 | AAA |
+| Dark — primary button, cream on navy-400 | 6.5 | AA |
+| Both — gold hover, navy on gold | 11.0 | AAA |
+
+Dark borders sit at 1.58:1 against the canvas, just under Payload's stock 1.67.
+Below about 1.4 field edges stop being findable, which reads as "where does this
+input end" rather than as calm — worth remembering if they get softened again.
+
+**The principle underneath:** this is a tool, not a page. The chrome should be
+the quietest thing on screen so photographs and copy are what the eye lands on.
+The brand appears in exactly three places — the logo, the primary action, the
+active nav marker — and nowhere else.
+
+**`generate:importmap` can report a false negative.** After adding the graphics
+components it printed "No new imports found, skipping writing import map" and
+wrote nothing. Deleting `src/app/(payload)/admin/importMap.js` and re-running
+picked them up. If a custom component silently fails to appear, suspect this
+before suspecting the component. Note also that component paths resolve against
+`admin.importMap.baseDir` (`src/`) — the tsconfig `@/` alias does not work
+there.
+
+**Not a problem:** the information architecture is already sound — collections
+are grouped Content/Administration with `useAsTitle`, `defaultColumns`, and
+field-level `description`s throughout. The gap is purely visual.
+
+---
+
 ## Blocked on PAIF
 
 Not developer work — these need chasing.

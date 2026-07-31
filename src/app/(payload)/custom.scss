@@ -1,1 +1,160 @@
-/* Admin panel overrides. Kept separate from the public site's Tailwind styles. */
+/* ---------------------------------------------------------------------------
+ * PAIF theme for the Payload admin panel.
+ *
+ * Loaded after `@payloadcms/next/css`, so plain `:root` rules here win on
+ * source order.
+ *
+ * Payload derives page background, text, borders, primary buttons and every
+ * `--theme-elevation-*` step from one ramp, `--color-base-0` (white) through
+ * `--color-base-1000` (black). Theming that ramp is how you theme the panel.
+ *
+ * LIGHT MODE is the public site's palette, unchanged. Every step below is
+ * either a token lifted verbatim from src/app/(frontend)/globals.css or a
+ * midpoint between two adjacent ones — Payload wants 21 evenly-spaced steps and
+ * the site's navy scale has 10, so the gaps are interpolated rather than
+ * invented. Tokens are marked; anything unmarked is a midpoint.
+ *
+ * DARK MODE is a purpose-built family, not an inversion.
+ *
+ * Payload builds dark mode by flipping the light ramp end for end, which would
+ * make `navy-800 #09093a` the page canvas. That value is 73% saturated at 13%
+ * lightness, and saturated blue that dark is the single worst thing you can ask
+ * someone to stare at — it was the main reason the first pass was unusable. So
+ * the dark elevations are overridden outright: same navy hue (~240°), chroma
+ * pulled back to roughly a third, and text resolving to brand cream rather than
+ * pure white. Warm off-white on cool dark navy is both easier on the eye than
+ * white-on-black and more the site's own than a neutral grey would be.
+ *
+ * CONTRAST RULE — carried over from globals.css, and it governs both modes:
+ *   gold on cream = ~1.5:1   FAILS at every size. Never use for text.
+ *   gold on navy  = ~11:1    excellent.
+ * Gold is a fill only. Focus outlines stay `--theme-text`: a gold ring on cream
+ * would be near-invisible, which is worse than unbranded.
+ * ------------------------------------------------------------------------- */
+
+:root {
+  /* Mirrored from src/app/(frontend)/globals.css. Keep in sync — if the site's
+     palette moves, this file has to move with it. */
+  --paif-navy-400: #4a4d9e;
+  --paif-navy-600: #101060;
+  --paif-gold: #fdcd01;
+  --paif-cream: #f2f0eb;
+  --paif-paper: #ffffff;
+
+  /* Inter, matching the public site. The variable is defined on <html> via
+     RootLayout's htmlProps — see (payload)/layout.tsx. The fallback chain
+     matters: if the font request fails this degrades to the system UI stack
+     rather than to a serif. */
+  --font-body: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+
+  /* Light ramp — the site's navy scale, white through navy-900. */
+  --color-base-0: #ffffff; /* --color-paper   */
+  --color-base-50: #f7f7fb;
+  --color-base-100: #eeeef7; /* --color-navy-50  */
+  --color-base-150: #e2e2f2;
+  --color-base-200: #d6d6ec; /* --color-navy-100 */
+  --color-base-250: #c2c2e3;
+  --color-base-300: #adaed9; /* --color-navy-200 */
+  --color-base-350: #9899d0;
+  --color-base-400: #8385c6; /* --color-navy-300 */
+  --color-base-450: #6a6cb2;
+  --color-base-500: #4a4d9e; /* --color-navy-400 */
+  --color-base-550: #383a89;
+  --color-base-600: #262873; /* --color-navy-500 */
+  --color-base-650: #1b1c6a;
+  --color-base-700: #101060; /* --color-navy-600 — brand navy */
+  --color-base-750: #0e0e57;
+  --color-base-800: #0d0d4e; /* --color-navy-700 — body text in light mode */
+  --color-base-850: #0b0b44;
+  --color-base-900: #09093a; /* --color-navy-800 */
+  --color-base-950: #060626; /* --color-navy-900 */
+  --color-base-1000: #030313;
+}
+
+/* Light mode only.
+ *
+ * Scoped with `:not([data-theme='dark'])` rather than plain `:root`: this
+ * stylesheet loads after Payload's, and `:root` alone would out-rank Payload's
+ * own `[data-theme=dark]` block on source order and break dark mode entirely.
+ * The extra selector raises specificity above it. */
+:root:not([data-theme='dark']) {
+  /* Cream canvas, white input wells — the same figure/ground relationship the
+     public site uses, and it keeps fields legible against the page. */
+  --theme-bg: var(--paif-cream);
+  --theme-input-bg: var(--paif-paper);
+}
+
+/* Dark mode.
+ *
+ * Overriding the elevation steps directly rather than the base ramp, because
+ * the base ramp is shared with light mode and these are not its inverse. Same
+ * ordering contract as Payload's own: 0 is the furthest-back surface, 1000 is
+ * the most prominent foreground. */
+[data-theme='dark'] {
+  --theme-elevation-0: #14152b; /* page canvas   */
+  --theme-elevation-50: #191a32; /* input wells   */
+  --theme-elevation-100: #1f2039; /* cards, popups */
+  /* 1.58:1 against the canvas. Payload's stock dark border sits at 1.67:1;
+     anything below ~1.4 and field edges stop being findable, which reads as
+     "where does this input end" rather than as calm. */
+  --theme-elevation-150: #36375a; /* borders       */
+  --theme-elevation-200: #3d3e63;
+  --theme-elevation-250: #45466d;
+  --theme-elevation-300: #434567;
+  --theme-elevation-350: #4e5074;
+  --theme-elevation-400: #5a5c82;
+  --theme-elevation-450: #666890;
+  --theme-elevation-500: #73759d;
+  --theme-elevation-550: #8082aa;
+  --theme-elevation-600: #8d8fb6;
+  --theme-elevation-650: #9a9cc2;
+  --theme-elevation-700: #a7a9cd;
+  --theme-elevation-750: #b5b7d8;
+  --theme-elevation-800: #c3c5e2;
+  --theme-elevation-850: #d1d3ea;
+  --theme-elevation-900: #dfe0f1;
+  --theme-elevation-950: #ebecf7;
+  --theme-elevation-1000: var(--paif-cream); /* body text — brand cream */
+
+  /* Payload's dark overlay is near-black; matched to the navy canvas so modals
+     dim the page rather than greying it out. */
+  --theme-overlay: rgba(9, 9, 26, 0.72);
+}
+
+/* --- Brand accents ---------------------------------------------------------
+ *
+ * Three placements, and no more: the logo, the primary action, the active nav
+ * marker. Everything else stays out of the way. */
+
+.btn--style-primary {
+  --bg-color: var(--paif-navy-600);
+  --color: var(--paif-cream);
+
+  /* Gold ground, navy text: ~11:1, and the one moment of full saturation
+     anywhere in the panel. */
+  --hover-bg: var(--paif-gold);
+  --hover-color: var(--paif-navy-600);
+}
+
+/* In dark mode navy-600 sits almost on top of the canvas, so the primary
+   action lifts to navy-400 — still a site token, ~6.4:1 against cream text. */
+[data-theme='dark'] .btn--style-primary {
+  --bg-color: var(--paif-navy-400);
+}
+
+.nav__link-indicator {
+  background-color: var(--paif-gold);
+}
+
+/* The login screen is the one place the panel is a front door rather than a
+   tool, so it carries the mark at a size you can actually read. */
+.login__brand {
+  margin-bottom: calc(var(--base) * 2.5);
+
+  img {
+    width: auto;
+    max-width: 220px;
+    height: auto;
+  }
+}
