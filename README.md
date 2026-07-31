@@ -28,7 +28,7 @@ must be given the `admin` role.
 | ------------------------ | ------------------------------------------------------------------ |
 | `PAYLOAD_SECRET`         | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
 | `DATABASE_URI`           | MongoDB Atlas connection string. Use a database dedicated to this project. |
-| `NEXT_PUBLIC_SERVER_URL` | `http://localhost:3000` locally                                    |
+| `NEXT_PUBLIC_SERVER_URL` | `http://localhost:3000` locally; `https://www.profferaid.com` in production |
 
 S3, Resend, and Paystack are all optional at boot — each integration
 self-disables when its variables are absent, so the app runs before those

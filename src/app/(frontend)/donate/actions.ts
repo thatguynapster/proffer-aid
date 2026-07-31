@@ -12,6 +12,7 @@ import {
   initializeTransaction,
   isPaystackConfigured,
 } from '../../../lib/paystack'
+import { SITE_URL } from '../../../lib/site-url'
 
 // `'use server'` — async functions only. DonateState lives in
 // lib/donate-state.ts for that reason.
@@ -74,14 +75,13 @@ export async function startDonation(
     )
   }
 
-  const origin = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
   const result = await initializeTransaction({
     email,
     amountPesewas,
     donorName: donorName || undefined,
     campaignId: campaignId || undefined,
     coveredFee: coverFee,
-    callbackUrl: `${origin}/donate/complete`,
+    callbackUrl: `${SITE_URL}/donate/complete`,
   })
 
   if (!result.ok) {

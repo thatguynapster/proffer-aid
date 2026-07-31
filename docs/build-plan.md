@@ -4,7 +4,7 @@ Working checklist for the ProfferAid.com rebuild. Scope and rationale live in
 [`profferaid-website-rebuild-prd.md`](profferaid-website-rebuild-prd.md);
 recovered content is documented in [`salvaged-content.md`](salvaged-content.md).
 
-**Last updated:** 2026-07-30
+**Last updated:** 2026-07-31
 
 ---
 
@@ -25,6 +25,7 @@ recovered content is documented in [`salvaged-content.md`](salvaged-content.md).
 - [x] **Access-control tests** — 21 assertions, found and fixed a publish vulnerability (see §4)
 - [x] **Donate + Paystack** — checkout, webhook, callback, 11 more tests (see §5)
 - [x] **Campaigns** — listing, detail, derived progress bar, homepage highlight (see §6)
+- [x] **SEO plumbing** — CMS-driven sitemap, robots, NGO JSON-LD, default OG image (see §7)
 
 ---
 
@@ -269,17 +270,49 @@ markup.
 
 ---
 
-## 7. SEO plumbing  ← next
+## 7. SEO plumbing — ✅ done
 
-- [ ] `sitemap.xml` — exclude `/donate` while `donationsEnabled` is false
-- [ ] `robots.txt`
-- [ ] NGO JSON-LD structured data (correct registered entity — see PRD §2.2)
-- [ ] Designed 404 page
-- [ ] Default OG image
+- [x] `sitemap.xml` — exclude `/donate` while `donationsEnabled` is false
+- [x] `robots.txt`
+- [x] NGO JSON-LD structured data (correct registered entity — see PRD §2.2)
+- [x] Designed 404 page (landed earlier, with §3)
+- [x] Default OG image
 
 **Notes:** the `.org` domain is gone, so there is no legacy authority to inherit
 and no redirects to preserve it. The `.com` starts from zero, which makes this
 work carry more weight than usual.
+
+The sitemap is built from the CMS, not a hardcoded list, so publishing an update
+or a campaign lists it without a deploy. `/donate` and `/privacy` are included
+only once they resolve — submitting URLs that 404 is how you teach a crawler to
+distrust the sitemap. A CMS failure degrades to the static routes rather than a
+500.
+
+The JSON-LD deliberately asserts **no** registered legal entity and **no**
+founding date. PRD §2.2 records that which entity is the registered donee — the
+Italian headquarters or the Ghanaian branch — is still unconfirmed, and the
+"established ~2010" figure is unverified. Both offices are published as
+`location`, which is factual. Fill these in once PAIF confirm (see *Blocked on
+PAIF → Ghanaian entity*).
+
+### Canonical origin
+
+`https://www.profferaid.com` — `www` is canonical, the apex 301s to it.
+
+All five consumers now read one constant, `SITE_URL` in `src/lib/site-url.ts`:
+sitemap, robots, JSON-LD, `metadataBase`, and the Paystack callback. They were
+previously five inlined copies with two different fallbacks — three defaulting
+to production, two to localhost — so a missing variable produced a correct
+sitemap alongside wrong OG tags. Each file looked fine on its own.
+
+The fallback is the production origin, not localhost: it only fires on a deploy
+that forgot the variable, and a live site advertising `localhost:3000` in its
+canonical tags is the worse failure. `.env` sets it explicitly for local dev.
+
+- [ ] Set `NEXT_PUBLIC_SERVER_URL=https://www.profferaid.com` in the production
+      environment at deploy time. **Leave `.env` on localhost** — it is the
+      origin Paystack redirects back to after a local test payment.
+- [ ] Apex → `www` 301 at the DNS/host layer (nothing in the app does this).
 
 ---
 

@@ -4,7 +4,9 @@ import React from 'react'
 
 import { Footer } from '../../components/layout/Footer'
 import { Navbar } from '../../components/layout/Navbar'
+import { StructuredData } from '../../components/StructuredData'
 import { donationsEnabled, getSettings } from '../../lib/cms'
+import { SITE_URL } from '../../lib/site-url'
 
 import './globals.css'
 
@@ -38,16 +40,26 @@ export async function generateMetadata(): Promise<Metadata> {
     'Proffer Aid International Foundation delivers mobile medical outreach to underserved communities across sub-Saharan Africa.'
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'),
+    metadataBase: new URL(SITE_URL),
+    alternates: { canonical: '/' },
     title: { default: name, template: `%s — ${name}` },
     description,
-    openGraph: { title: name, description, type: 'website', siteName: name },
+    openGraph: {
+      title: name,
+      description,
+      type: 'website',
+      siteName: name,
+      // Default share card. Routes with their own cover image (updates,
+      // campaigns) override this in their own generateMetadata.
+      images: [{ url: '/og-default.png', width: 1200, height: 630, alt: name }],
+    },
+    twitter: { card: 'summary_large_image', title: name, description },
     icons: { icon: '/favicon.ico' },
   }
 }
 
 export default async function FrontendLayout({ children }: { children: React.ReactNode }) {
-  const showDonate = await donationsEnabled()
+  const [showDonate, settings] = await Promise.all([donationsEnabled(), getSettings()])
 
   return (
     // data-scroll-behavior opts into Next's smooth-scroll handling for route
@@ -60,10 +72,11 @@ export default async function FrontendLayout({ children }: { children: React.Rea
       <body className="flex min-h-screen flex-col">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60] focus:rounded-pill focus:bg-navy-600 focus:px-5 focus:py-2.5 focus:text-xs focus:font-semibold focus:uppercase focus:tracking-widest focus:text-cream"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-60 focus:rounded-pill focus:bg-navy-600 focus:px-5 focus:py-2.5 focus:text-xs focus:font-semibold focus:uppercase focus:tracking-widest focus:text-cream"
         >
           Skip to content
         </a>
+        <StructuredData settings={settings} />
         <Navbar showDonate={showDonate} />
         <main id="main" className="flex-1">
           {children}
