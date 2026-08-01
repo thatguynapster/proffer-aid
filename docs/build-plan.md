@@ -345,6 +345,92 @@ treated as "Payload provides it" and never actually looked at.
       access control is enforced and tested (§4), but nobody has checked what a
       Contributor actually sees.
 
+### Tailwind + shadcn/ui in the admin
+
+Set up per [Payload's guide](https://payloadcms.com/posts/guides/how-to-setup-tailwindcss-and-shadcn-ui-in-payload),
+adapted to Tailwind 4 (the guide is written for v3, where `@tailwind base` and
+`tailwind.config.js` still exist; neither does here).
+
+`(payload)/custom.css` — renamed from `.scss`, because Sass resolves `@import`
+itself before PostCSS runs and would mangle Tailwind's:
+
+```css
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+/* @import 'tailwindcss/preflight.css' layer(base);  <- deliberately omitted */
+@import 'tailwindcss/utilities.css' layer(utilities);
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+```
+
+**Preflight must never be imported here.** It is Tailwind's global reset — it
+strips borders, button styling, heading sizes and list markers from every
+element. Payload's admin CSS assumes browser defaults in places, so importing it
+would wreck the panel in the same way the missing stylesheet did. Verified
+absent: the preflight selector `*, :after, :before, ::backdrop` does not appear
+in the admin bundle, while it does on the public site.
+
+The `@custom-variant` line exists because Payload toggles `data-theme` on
+`<html>` rather than a `.dark` class, so Tailwind's `dark:` variant has to be
+told where to look.
+
+**What this does and does not buy.** Tailwind utilities work in components *we*
+inject into the admin (`src/components/admin/*`). They cannot restyle Payload's
+own screens — that markup belongs to `@payloadcms/ui` and is themed through the
+CSS variables described below.
+
+**Shared tokens are what actually makes the two surfaces match.**
+`src/styles/shadcn-tokens.css` maps shadcn's semantic names — `--primary`,
+`--accent`, `--muted-foreground`, `--ring` — onto the PAIF palette, and is
+imported by both `globals.css` and `custom.css`. Nothing in it is a shadcn
+default. `--accent` is gold with a *navy* foreground and `--ring` is navy rather
+than gold, both for the contrast rule.
+
+**The `_bak` rename.** shadcn writes `button.tsx` and `accordion.tsx` into
+`src/components/ui/`, where `Button.tsx` and `Accordion.tsx` already lived.
+Windows filesystems are case-insensitive, so shadcn would have silently
+overwritten them. The originals are now `Button_bak.tsx`, `Container_bak.tsx`
+and `Accordion_bak.tsx`, with all 37 import sites across 24 files repointed.
+
+### Migration status
+
+- [x] **Button** — `ui/button.tsx` is shadcn's structure (cva, Slot, `data-slot`)
+      carrying PAIF styling. `Button_bak` deleted; 36 import sites repointed.
+- [x] **ArrowButton** — moved to `ui/arrow-button.tsx`. No shadcn equivalent, and
+      it is not a button: a decorative span inside an already-clickable card.
+- [x] **Container / SectionHeading / Eyebrow** — kept as `ui/container.tsx`.
+      shadcn ships no layout primitive, so there was nothing to migrate to.
+- [ ] **Accordion** — deliberately still `Accordion_bak`, see below.
+
+**Primary is gold with navy text, not `bg-primary`.** It mirrors the logo and
+clears AA. It must not use the `--primary` token, which is navy: shadcn's `link`
+variant renders `text-primary`, and gold text on cream is ~1.5:1. Gold stays a
+fill.
+
+### The accordion is still native `<details>`
+
+`Accordion_bak.tsx` uses `<details>`/`<summary>`. shadcn's accordion is Radix —
+client-side divs with JavaScript state. Swapping would cost three things the
+platform gives free:
+
+- it works with JavaScript disabled
+- keyboard and screen-reader semantics come from the browser, not from us
+- browser find-in-page can open a closed section to reveal a match
+
+The FAQ is the densest text on the site, and this project explicitly optimises
+for low-bandwidth Ghanaian traffic (it is why the fonts are self-hosted). Trading
+those away for visual parity looked like the wrong call, so it is left pending a
+decision rather than silently downgraded. `ui/accordion.tsx` is installed and
+themed if the swap is wanted — it is a one-line import change.
+
+### The admin panel, as far as it goes
+
+`DashboardPanel` uses shadcn `Card`, `Alert` and `Button`, which is the ceiling:
+Payload's own screens — nav, list views, the document editor, every field — are
+rendered by `@payloadcms/ui` and cannot take Tailwind classes. Replacing them
+means overriding each view or field component outright and reimplementing what
+Payload already does. Not worth it for visual consistency; the CSS variables
+already deliver that.
+
 ### How the theme works
 
 Payload derives nearly everything — page background, text, borders, primary

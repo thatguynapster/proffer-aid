@@ -1,31 +1,72 @@
 /* ---------------------------------------------------------------------------
  * PAIF theme for the Payload admin panel.
  *
- * Loaded after `@payloadcms/next/css`, so plain `:root` rules here win on
- * source order.
+ * Plain CSS, not SCSS, deliberately: Sass resolves `@import` itself before
+ * PostCSS ever runs, so Tailwind's imports below would be mangled or inlined
+ * wrongly inside a .scss file. Native CSS nesting covers everything the old
+ * SCSS was using.
+ *
+ * TAILWIND IN THE ADMIN — the layer order and the omission below are the whole
+ * trick, per Payload's own guide:
+ *
+ *   "Do not add the base styles here as they contain a lot of style resets
+ *    that may interfere with the admin panel."
+ *
+ * Preflight is Tailwind's global reset: it strips borders, button styling,
+ * heading sizes and list markers from every element on the page. Payload's
+ * admin CSS assumes browser defaults in places, so importing preflight here
+ * would quietly wreck the panel. Theme and utilities are safe; base is not.
+ *
+ * This buys Tailwind utilities for components WE inject into the admin
+ * (src/components/admin/*). It does not restyle Payload's own components —
+ * that markup belongs to @payloadcms/ui and is themed through the CSS
+ * variables further down.
+ * ------------------------------------------------------------------------- */
+
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme);
+/* @import 'tailwindcss/preflight.css' layer(base);  <- deliberately omitted */
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+/* Same semantic tokens the public site uses, so a shadcn component renders
+   identically on both surfaces. */
+@import '../../styles/shadcn-tokens.css';
+
+/* Payload toggles `data-theme` on <html> rather than a `.dark` class, so
+   Tailwind's `dark:` variant has to be taught where to look. */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Tailwind v4 infers which files to scan from this stylesheet's location.
+   Stated explicitly so utilities used only in admin components are never
+   tree-shaken away. */
+@source '../../components';
+
+/* ---------------------------------------------------------------------------
+ * Payload panel theming
  *
  * Payload derives page background, text, borders, primary buttons and every
  * `--theme-elevation-*` step from one ramp, `--color-base-0` (white) through
  * `--color-base-1000` (black). Theming that ramp is how you theme the panel.
  *
- * LIGHT MODE is the public site's palette, unchanged. Every step below is
- * either a token lifted verbatim from src/app/(frontend)/globals.css or a
- * midpoint between two adjacent ones — Payload wants 21 evenly-spaced steps and
- * the site's navy scale has 10, so the gaps are interpolated rather than
- * invented. Tokens are marked; anything unmarked is a midpoint.
+ * LIGHT MODE is the public site's palette, unchanged. Every step is either a
+ * token lifted verbatim from globals.css or a midpoint between two adjacent
+ * ones — Payload wants 21 evenly-spaced steps and the site's navy scale has 10,
+ * so the gaps are interpolated rather than invented. Tokens are marked;
+ * anything unmarked is a midpoint.
  *
- * DARK MODE is a purpose-built family, not an inversion.
+ * DARK MODE is purpose-built, not an inversion. Payload builds dark by flipping
+ * the light ramp end for end, which would put navy-800 #09093a — 73% saturated
+ * at 13% lightness — on screen as the page canvas. Saturated blue that dark is
+ * the worst thing to ask someone to stare at. So the dark elevations are
+ * overridden outright: same hue, a third the chroma, and text resolving to
+ * brand cream rather than pure white.
  *
- * Payload builds dark mode by flipping the light ramp end for end, which would
- * make `navy-800 #09093a` the page canvas. That value is 73% saturated at 13%
- * lightness, and saturated blue that dark is the single worst thing you can ask
- * someone to stare at — it was the main reason the first pass was unusable. So
- * the dark elevations are overridden outright: same navy hue (~240°), chroma
- * pulled back to roughly a third, and text resolving to brand cream rather than
- * pure white. Warm off-white on cool dark navy is both easier on the eye than
- * white-on-black and more the site's own than a neutral grey would be.
+ * These overrides win on SOURCE ORDER, not specificity — Payload sets the same
+ * variables in its own `[data-theme=dark]` block. This file loading last is
+ * what makes them apply; don't reorder the imports in layout.tsx.
  *
- * CONTRAST RULE — carried over from globals.css, and it governs both modes:
+ * CONTRAST RULE — carried over from globals.css, governing both modes:
  *   gold on cream = ~1.5:1   FAILS at every size. Never use for text.
  *   gold on navy  = ~11:1    excellent.
  * Gold is a fill only. Focus outlines stay `--theme-text`: a gold ring on cream
@@ -152,7 +193,7 @@
 .login__brand {
   margin-bottom: calc(var(--base) * 2.5);
 
-  img {
+  & img {
     width: auto;
     max-width: 220px;
     height: auto;

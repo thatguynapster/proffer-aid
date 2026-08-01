@@ -3,8 +3,8 @@ import type { Metadata } from 'next'
 import { PageHero } from '../../../components/layout/PageHero'
 import { CategoryFilter } from '../../../components/updates/CategoryFilter'
 import { UpdateCard } from '../../../components/updates/UpdateCard'
-import { Button } from '../../../components/ui/Button'
-import { Container } from '../../../components/ui/Container'
+import { Button } from '../../../components/ui/button'
+import { Container } from '../../../components/ui/container'
 import { UPDATE_CATEGORIES, categoryLabel, listUpdates } from '../../../lib/updates'
 
 export const revalidate = 300

@@ -1,5 +1,5 @@
-import { Button } from '../../components/ui/Button'
-import { Container } from '../../components/ui/Container'
+import { Button } from '../../components/ui/button'
+import { Container } from '../../components/ui/container'
 
 export const metadata = { title: 'Page not found' }
 

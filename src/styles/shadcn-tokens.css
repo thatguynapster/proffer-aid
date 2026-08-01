@@ -1,0 +1,119 @@
+/* ---------------------------------------------------------------------------
+ * shadcn/ui semantic tokens, mapped to the PAIF palette.
+ *
+ * Imported by BOTH the public site (`(frontend)/globals.css`) and the admin
+ * panel (`(payload)/custom.css`). One definition, two surfaces — which is the
+ * whole point: a shadcn Button rendered in a custom admin field and the same
+ * Button on the public site resolve to the same navy, the same gold, the same
+ * radius, because they read the same variables.
+ *
+ * shadcn ships these as neutral greys in oklch. Every value below is replaced
+ * with a token from `globals.css` — nothing here is a shadcn default.
+ *
+ * CONTRAST RULE, carried over from globals.css and load-bearing here:
+ *   gold on cream = ~1.5:1   FAILS at every size. Never text.
+ *   gold on navy  = ~11:1    excellent.
+ * That is why `--accent` is gold with a NAVY foreground, and why `--ring` is
+ * navy rather than gold — a gold focus ring on cream would be invisible.
+ * ------------------------------------------------------------------------- */
+
+:root {
+  /* Buttons on the public site are pills (`--radius-pill`); this is the base
+     for cards, inputs and popovers, which are not. */
+  --radius: 0.5rem;
+
+  --background: #f2f0eb; /* cream        */
+  --foreground: #101060; /* navy-600     */
+
+  --card: #ffffff; /* paper        */
+  --card-foreground: #101060;
+  --popover: #ffffff;
+  --popover-foreground: #101060;
+
+  --primary: #101060; /* navy-600     */
+  --primary-foreground: #f2f0eb; /* cream, 14.6:1 */
+
+  --secondary: #e6e3db; /* cream-dark   */
+  --secondary-foreground: #101060;
+
+  --muted: #eeeef7; /* navy-50      */
+  --muted-foreground: #4a4d9e; /* navy-400, 6.5:1 on cream */
+
+  /* Gold as a fill with navy on top — the one place real saturation is
+     allowed, and never the other way round. */
+  --accent: #fdcd01;
+  --accent-foreground: #101060;
+
+  /* The palette has no red. This one is chosen to sit with navy rather than
+     fight it: same low lightness, warm enough to read as danger. */
+  --destructive: #9b1c1c;
+
+  --border: #d6d6ec; /* navy-100     */
+  --input: #d6d6ec;
+  --ring: #4a4d9e; /* navy-400     */
+}
+
+/* Dark mode is admin-only — the public site has no dark theme. Payload sets
+   `data-theme`; `.dark` is included so shadcn's own convention keeps working if
+   the site ever gains one. Values come from the admin dark family in
+   `(payload)/custom.css`. */
+[data-theme='dark'],
+.dark {
+  --background: #14152b;
+  --foreground: #f2f0eb;
+
+  --card: #1f2039;
+  --card-foreground: #f2f0eb;
+  --popover: #1f2039;
+  --popover-foreground: #f2f0eb;
+
+  /* navy-600 sits almost on top of the dark canvas, so the primary action
+     lifts to navy-400 — still a site token, 6.5:1 against cream. */
+  --primary: #4a4d9e;
+  --primary-foreground: #f2f0eb;
+
+  --secondary: #2e2f4d;
+  --secondary-foreground: #f2f0eb;
+
+  --muted: #262742;
+  --muted-foreground: #8d8fb6;
+
+  --accent: #fdcd01;
+  --accent-foreground: #101060;
+
+  --destructive: #e5484d;
+
+  --border: #36375a;
+  --input: #36375a;
+  --ring: #73759d;
+}
+
+/* Expose the variables above as Tailwind utilities — `bg-primary`,
+   `text-muted-foreground`, `border-input` and so on. `inline` means the
+   utilities reference the custom properties rather than copying their values,
+   which is what lets the dark block above re-point them at runtime. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}

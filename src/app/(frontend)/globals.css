@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+/* shadcn/ui semantic tokens, mapped to the palette below. Shared with the admin
+   panel so a shadcn component renders identically on both surfaces. */
+@import '../../styles/shadcn-tokens.css';
+
 /*
  * Design tokens.
  *

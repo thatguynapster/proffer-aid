@@ -2,8 +2,8 @@ import Link from 'next/link'
 
 import type { Update } from '../../payload-types'
 import { mediaAlt, mediaUrl } from '../../lib/cms'
-import { ArrowButton } from '../ui/Button'
-import { Container } from '../ui/Container'
+import { ArrowButton } from '../ui/arrow-button'
+import { Container } from '../ui/container'
 import { PhotoSlot } from '../media/PhotoSlot'
 
 const CATEGORY_LABELS: Record<string, string> = {

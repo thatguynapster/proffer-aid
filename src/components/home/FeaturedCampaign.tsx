@@ -1,8 +1,8 @@
 import type { Campaign } from '../../payload-types'
 import { ProgressBar } from '../campaigns/ProgressBar'
 import { PhotoSlot } from '../media/PhotoSlot'
-import { Button } from '../ui/Button'
-import { Container } from '../ui/Container'
+import { Button } from '../ui/button'
+import { Container } from '../ui/container'
 import { mediaAlt, mediaUrl } from '../../lib/cms'
 
 /**

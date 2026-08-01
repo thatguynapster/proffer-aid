@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 
 import { CampaignCard } from '../../../components/campaigns/CampaignCard'
 import { PageHero } from '../../../components/layout/PageHero'
-import { Button } from '../../../components/ui/Button'
-import { Container } from '../../../components/ui/Container'
+import { Button } from '../../../components/ui/button'
+import { Container } from '../../../components/ui/container'
 import { listCampaigns } from '../../../lib/campaigns'
 import { donationsEnabled } from '../../../lib/cms'
 

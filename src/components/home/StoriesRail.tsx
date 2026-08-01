@@ -1,7 +1,7 @@
 import type { Update } from '../../payload-types'
 import { mediaAlt, mediaUrl } from '../../lib/cms'
-import { Button } from '../ui/Button'
-import { Container, SectionHeading } from '../ui/Container'
+import { Button } from '../ui/button'
+import { Container, SectionHeading } from '../ui/container'
 import { StoriesRailClient, type StoryItem } from './StoriesRailClient'
 
 /**

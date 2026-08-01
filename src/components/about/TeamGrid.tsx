@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import type { TeamMember } from '../../payload-types'
 import { mediaAlt, mediaUrl } from '../../lib/cms'
-import { Container, SectionHeading } from '../ui/Container'
+import { Container, SectionHeading } from '../ui/container'
 
 /**
  * Members without a photograph get a designed initials avatar rather than a

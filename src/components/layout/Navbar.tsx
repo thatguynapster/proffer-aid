@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import { Button } from '../ui/Button'
+import { Button } from '../ui/button'
 
 const LINKS = [
   { href: '/what-we-do', label: 'What we do' },

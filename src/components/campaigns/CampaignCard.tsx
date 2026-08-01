@@ -4,7 +4,7 @@ import type { Campaign } from '../../payload-types'
 import { mediaAlt, mediaUrl } from '../../lib/cms'
 import { progressPercent } from '../../lib/campaigns'
 import { PhotoSlot } from '../media/PhotoSlot'
-import { ArrowButton } from '../ui/Button'
+import { ArrowButton } from '../ui/arrow-button'
 
 export function CampaignCard({
   campaign,

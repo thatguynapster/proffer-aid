@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation'
 
 import { RichText } from '../../../../components/RichText'
 import { UpdateCard } from '../../../../components/updates/UpdateCard'
-import { Button } from '../../../../components/ui/Button'
-import { Container, SectionHeading } from '../../../../components/ui/Container'
+import { Button } from '../../../../components/ui/button'
+import { Container, SectionHeading } from '../../../../components/ui/container'
 import { PhotoSlot } from '../../../../components/media/PhotoSlot'
 import { getCms, mediaAlt, mediaUrl } from '../../../../lib/cms'
 import {

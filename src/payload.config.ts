@@ -41,6 +41,7 @@ export default buildConfig({
       icons: [{ rel: 'icon', type: 'image/x-icon', url: '/favicon.ico' }],
     },
     components: {
+      beforeDashboard: ['/components/admin/DashboardPanel#DashboardPanel'],
       graphics: {
         // Paths resolve against `importMap.baseDir` above (src/), not the
         // tsconfig `@/` alias — the import-map generator does not read those.

@@ -11,7 +11,7 @@ import { importMap } from './admin/importMap.js'
 // unstyled markup — RootLayout ships no styles of its own. Must come before
 // custom.scss so overrides there actually win.
 import '@payloadcms/next/css'
-import './custom.scss'
+import './custom.css'
 
 /**
  * Same body face as the public site, self-hosted at build time.

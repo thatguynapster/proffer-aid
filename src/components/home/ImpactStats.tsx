@@ -1,5 +1,5 @@
 import type { SiteSetting } from '../../payload-types'
-import { Container, SectionHeading } from '../ui/Container'
+import { Container, SectionHeading } from '../ui/container'
 
 /**
  * "OUR IMPACT IN ACTION" — big numerals in white cards with a gold "+".

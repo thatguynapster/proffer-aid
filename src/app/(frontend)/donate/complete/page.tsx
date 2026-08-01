@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 
-import { Button } from '../../../../components/ui/Button'
-import { Container } from '../../../../components/ui/Container'
+import { Button } from '../../../../components/ui/button'
+import { Container } from '../../../../components/ui/container'
 import { donationsEnabled, getCms } from '../../../../lib/cms'
 import { recordTransaction } from '../../../../lib/donations'
 import { formatGhs, verifyTransaction } from '../../../../lib/paystack'

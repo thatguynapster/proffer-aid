@@ -1,5 +1,5 @@
-import { Container } from '../ui/Container'
-import { Eyebrow } from '../ui/Container'
+import { Container } from '../ui/container'
+import { Eyebrow } from '../ui/container'
 
 /**
  * Shared page header. Keeps interior pages in the homepage's typographic

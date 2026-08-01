@@ -3,7 +3,7 @@ import Link from 'next/link'
 import type { Update } from '../../payload-types'
 import { mediaAlt, mediaUrl } from '../../lib/cms'
 import { categoryLabel, externalHref, formatUpdateDate, updateHref } from '../../lib/updates'
-import { ArrowButton } from '../ui/Button'
+import { ArrowButton } from '../ui/arrow-button'
 import { PhotoSlot } from '../media/PhotoSlot'
 
 export function UpdateCard({ update, featured = false }: { update: Update; featured?: boolean }) {

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { getSettings } from '../../lib/cms'
-import { Container } from '../ui/Container'
+import { Container } from '../ui/container'
 
 const SITEMAP = [
   { href: '/what-we-do', label: 'What we do' },

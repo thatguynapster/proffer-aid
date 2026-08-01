@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 import { PageHero } from '../../../components/layout/PageHero'
 import { RichText } from '../../../components/RichText'
-import { Container } from '../../../components/ui/Container'
+import { Container } from '../../../components/ui/container'
 import { getPage, getPageOr404, pageMetadata } from '../../../lib/pages'
 
 export const revalidate = 300

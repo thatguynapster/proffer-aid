@@ -1,5 +1,5 @@
-import { Button } from '../ui/Button'
-import { Container } from '../ui/Container'
+import { Button } from '../ui/button'
+import { Container } from '../ui/container'
 import { WordmarkFill } from '../media/PhotoSlot'
 
 /**
